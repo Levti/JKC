@@ -1,0 +1,92 @@
+<div class="loader">
+	<div class="loader-centered">
+		<div class="object square-one"></div>
+		<div class="object square-two"></div>
+		<div class="object square-three"></div>
+	</div>
+</div>
+
+<div style="height: 95px;">
+    header
+</div>
+<div class="grid" [ngClass]="{'backF':filterNull, 'backS':!filterNull}">
+    <div *ngIf="isLoadingData">
+        <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+    </div>
+    <div [hidden]="!listOfSites" class="info" (click)="action()">
+        <mat-card *ngFor="let data of archobs | async" [ngClass]="{'archiology':data.siteDef=='ארכיאולוגי', 'history':data.siteDef=='היסטורי'}" (click)="openInformation(data, data.pointX, data.pointY)" style="padding: 5px; cursor: pointer; line-height: normal; height: 128px; margin-bottom: 10px; box-shadow: none;">
+            <mat-card-content>
+                <img class="pic" src="assets/picture/Logo.jpg.png" alt="">
+                <div style="float: left" class="nam">
+                    <label style="font-family: Rubik; font-style: normal; font-weight: normal;
+                font-size: 14px; line-height: 17px; text-align: right; color: #7B7B7B;">{{data.resourceID}}</label>
+                    <label style="float: left;" class="siteDef">{{data.siteDef}}</label>
+                    <br>
+                    <label class="name">{{data.name}}</label>
+                    <br>
+                    <label class="descrip">{{data.description}}</label>
+                    <br>
+                    <p style="font-family: Rubik;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 17px;
+                text-align: right;
+                color: #9B9898;">{{data.locationSite}}</p>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-paginator #paginators [length]="100" [pageSize]="numScreen" dir="rtl" class="footer" style="background-color:transparent;" [hidePageSize]="true"></mat-paginator>
+        <br>
+    </div>
+    <!--<label id="ITM" *ngIf="xyScreenITM!=null" [ngClass]="{'xyScreenListOpenT':!listOfSites, 'xyScreenListOpen':listOfSites}">Israel Transverse Mercator (ITM): {{xyScreenITM}}</label>-->
+    <label id="ICS" *ngIf="xyScreenICS!=null" [ngClass]="{'xyScreenListOpenT':!listOfSites, 'xyScreenListOpen':listOfSites}">Israel Cassini Soldner (ICS): {{xyScreenICS}}</label>
+    <div *ngIf="ten!=0" class="scale" id="scale" jstcache="0">
+        <div class="scaleWidth" [style.width.px]="ten"></div>
+        <label *ngIf="kiloMeterS" class="scaleMeter" jsan="0.id"> {{'Azimuth.kilometer'|translate}} {{scaleMeter}} </label>
+        <label *ngIf="meterS" class="scaleMeter" jsan="0.id"> {{'Azimuth.Meter'|translate}} {{scaleMeter}} </label>
+    </div>
+
+    <div [ngClass]="{'mapS':listOfSites, 'mapB':!listOfSites}" id="mapDiv" #mapDiv class="map" (click)="action()"></div>
+    <!-- <div class="hello">hello</div> -->
+    <div *ngIf="listOfSites" [ngClass]="{'rightS':he, 'rightSEN':!he}" class="sumbtn" for="">{{'information.sitesOnMap'|translate}} <label> {{sumOfSitesZoom}} </label></div>
+    <div *ngIf="!listOfSites" [ngClass]="{'rightBEN':!he, 'rightB':he}" class="sumbtn" for="">{{'information.sitesOnMap'|translate}} <label> {{sumOfSitesZoom}} </label></div>
+    <button matTooltip="{{'Tooltips.sitesList'|translate}}" matTooltipClass="tooltipClass" *ngIf="listOfSites" [ngClass]="{'expandSEN': !he, 'expandS': he}" class="expand" (click)="expandMap()">>> {{'information.sitesOpen'|translate}}</button>
+    <button matTooltip="{{'Tooltips.sitesList'|translate}}" matTooltipClass="tooltipClass" *ngIf="!listOfSites" [ngClass]="{'expandBEN':!he, 'expandB':he}" class="expand" (click)="expandMap()">>> {{'information.sitesClose'|translate}}</button>
+    <button matTooltip="{{'Tooltips.measure'|translate}}" *ngIf="listOfSites" [ngClass]="{'measureph':he, 'measurepe':!he }" class="bbtn btnMeasure" (click)="openMeasure()" alt="Measure"><mat-icon>straighten</mat-icon></button>
+    <button matTooltip="{{'Tooltips.measure'|translate}}" *ngIf="!listOfSites" [ngClass]="{'measureph':he, 'measurepeEN':!he }" class="bbtn btnMeasure" (click)="openMeasure()" alt="Measure"><mat-icon>straighten</mat-icon></button>
+    <!-- <button *ngIf="!listOfSites" class="bbtn btnMeasure" (click)="showBGMap()">BG</button> -->
+    <!-- <button *ngIf="!listOfSites" class="bbtn expandS" (click)="addToLayer()">V</button> -->
+    <button matTooltip="{{'Tooltips.viewshed'|translate}}" *ngIf="listOfSites" [ngClass]="{'viewshedHe':he, 'viewshedpe':!he }" class="bbtn btnViewShed" (click)="sendToViewshed()"><img src="assets/picture/viewshed.jpg" alt=""></button>
+    <button matTooltip="{{'Tooltips.viewshed'|translate}}" *ngIf="!listOfSites" [ngClass]="{'viewshedHe':he, 'viewshedEN':!he }" class="bbtn btnViewShed" (click)="sendToViewshed()"><img src="assets/picture/viewshed.jpg" alt=""></button>
+    <button matTooltip="{{'Tooltips.walkingPath'|translate}}" *ngIf="listOfSites" [ngClass]="{'disAndTimeHeb':he, 'disandtimepe':!he}" class="bbtn btnDisTime" (click)="calcDistanceAndTime()"><img src="assets/picture/distance&time.jpg" alt=""></button>
+    <button matTooltip="{{'Tooltips.walkingPath'|translate}}" *ngIf="!listOfSites" [ngClass]="{'disAndTimeHeb':he, 'disAndTimeEng':!he}" class="bbtn btnDisTime" (click)="calcDistanceAndTime()"><img src="assets/picture/distance&time.jpg" alt=""></button>
+    <button matTooltip="{{'Tooltips.azimuth'|translate}}" *ngIf="listOfSites" [ngClass]="{'disAndTimeHeb':he, 'disandtimepe':!he}" class="bbtn btnAzimuth" (click)="openAzimuth()"><img src="assets/picture/caliper.jpg" alt=""></button>
+    <button matTooltip="{{'Tooltips.azimuth'|translate}}" *ngIf="!listOfSites" [ngClass]="{'disAndTimeHeb':he, 'disAndTimeEng':!he}" class="bbtn btnAzimuth" (click)="openAzimuth()"><img src="assets/picture/caliper.jpg" alt=""></button>
+    <a matTooltip="{{'Tooltips.googleMap'|translate}}" *ngIf="listOfSites" [ngClass]="{'googleMapHe':he, 'disandtimepe':!he}" class="bbtn googleMap" target="_blank" href="{{urlMap}}"><img src="assets/picture/googleMap.png"></a>
+    <a matTooltip="{{'Tooltips.googleMap'|translate}}" *ngIf="!listOfSites" [ngClass]="{'googleMapHe':he, 'googleMapEng':!he}" class="bbtn googleMap" target="_blank" href="{{urlMap}}"><img src="assets/picture/googleMap.png"></a>
+
+    <!--<app-regions></app-regions>-->
+    <button matTooltip="{{'Tooltips.Regions'|translate}}" *ngIf="listOfSites" [ngClass]="{'measureph':he, 'measurepe':!he }" class="bbtn Regions" (click)="openRegions()" alt="Measure"><mat-icon id = "Reg">view_module</mat-icon></button>
+    <button matTooltip="{{'Tooltips.Regions'|translate}}" *ngIf="!listOfSites" [ngClass]="{'measureph':he, 'measurepeEN':!he }" class="bbtn Regions" (click)="openRegions()" alt="Measure"><mat-icon id = "Reg">view_module</mat-icon></button>
+
+    <!-- <a href="{{urlMap}}" (click)="" class="bbtn googleMap"><img src="assets/picture/googleMap.png" alt=""></a> -->
+    <!-- [ngClass]="'currentTheme' | translate" -->
+    <div *ngIf="isAzimuth" class="viewshed" [style.height.px]="heightAzimut" [ngClass]="{'viewshedListOpen':listOfSites && !he, 'viewshedListClose':!listOfSites || he}">
+        <button style="float: left;" mat-icon-button class="close" type="button" (click)="openAzimuth()"><mat-icon>close</mat-icon></button>
+        <br>
+        <app-azimuth [browserLang] = 'browserLang' ></app-azimuth>
+        <!--<app-azimuth></app-azimuth>-->
+    </div>
+    <div *ngIf="distanceAndWalking" [style.height.px]="computes.heightCalcDis" [ngClass]="{'viewshedListOpen':listOfSites && !he, 'viewshedListClose':!listOfSites || he}" style="direction: rtl;" class="viewshed">
+        <button style="float: left;" mat-icon-button class="close" type="button" (click)="calcDistanceAndTime()"><mat-icon>close</mat-icon></button>
+        <br>
+        <app-distance-time></app-distance-time>
+    </div>
+    <div *ngIf="isViewshed" class="viewshed" [ngClass]="{'viewshedListOpen':listOfSites && !he, 'viewshedListClose':!listOfSites || he}">
+        <button style="float: left;" mat-icon-button class="close" type="button" (click)="sendToViewshed()"><mat-icon>close</mat-icon></button>
+        <br>
+        <app-viewshed></app-viewshed>
+    </div>
+</div>
+

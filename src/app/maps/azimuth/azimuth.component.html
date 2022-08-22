@@ -1,0 +1,37 @@
+<label style="text-align: center;">{{'Azimuth.calcAzimuth'|translate}}</label>
+<br>
+<label for="">{{'Azimuth.select'|translate}}</label>
+<div [ngClass]="'LANGUAGE' | translate">
+    <div *ngFor="let xy of computes.arrayxyAzimuth; let i=index">
+        <mat-form-field style="width: 120px;">
+
+            <!--<input *ngIf="browserLang=='en'" matInput type="text" #inputAz (click)="computes.xyAzimuth(i+1, $event)" [disabled]="newAzimuth" autocomplete="off" placeholder="{{i==1?'Target point':'Origin point'}}" [(ngModel)]="computes.arrayxyAzimuth[i]">-->
+            <!--<input *ngIf="browserLang=='he'" matInput type="text" #inputAz (click)="computes.xyAzimuth(i+1, $event)" [disabled]="newAzimuth" autocomplete="off" placeholder="{{i==1?'נקודת יציאה':'נקודת תחנה'}}" [(ngModel)]="computes.arrayxyAzimuth[i]">-->
+
+            <input *ngIf="!he" matInput type="text" #inputAz (click)="computes.xyAzimuth(i+1, $event)" [disabled]="newAzimuth" autocomplete="off" placeholder="{{i==1?'Target point':'Origin point'}}" [(ngModel)]="computes.arrayxyAzimuth[i]">
+            <input *ngIf="he" matInput type="text" #inputAz (click)="computes.xyAzimuth(i+1, $event)" [disabled]="newAzimuth" autocomplete="off" placeholder="{{i==1?'נקודת יציאה':'נקודת תחנה'}}" [(ngModel)]="computes.arrayxyAzimuth[i]">
+                   
+        </mat-form-field>
+    </div>
+</div>
+<button *ngIf="!newAzimuth" (click)="calcAzimuth()" mat-button style="flex-direction: row;
+        align-items: flex-start;
+        position: relative;
+        border: 1px solid #292852;
+        box-sizing: border-box;
+        font-family: Rubik;
+        border-radius: 5px;" [disabled]="computes.firstXYAzimuth == null || computes.secondXYAzimuth == null">{{'walkingPath.Calculate'|translate}}</button>
+<button *ngIf="newAzimuth" (click)="recalculateAzimuth()" mat-button style="flex-direction: row;
+                align-items: flex-start;
+                position: relative;
+                border: 1px solid #292852;
+                box-sizing: border-box;
+                font-family: Rubik;
+                border-radius: 5px;">{{'walkingPath.recalculate'|translate}}</button>
+<br><br>
+
+<div *ngIf="computes.distance" [ngClass]="'currentTheme' | translate">
+    <label for="">{{'Azimuth.distance'|translate}} {{computes.distance}} {{'Azimuth.Meter'|translate}} </label>
+    <br>
+    <label for=""> {{'Azimuth.azimuth'|translate}} &deg; {{bearing}} </label>
+</div>

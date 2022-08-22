@@ -1,0 +1,11 @@
+<div class="container">
+  <div>
+      <app-nav-bar></app-nav-bar>
+  </div>
+  <div class="cont" [ngClass]="'currentTheme' | translate">
+      <router-outlet></router-outlet>
+  </div>
+  <div class="footer">
+      <app-nav-bar-bottom></app-nav-bar-bottom>
+  </div>
+</div>

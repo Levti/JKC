@@ -1,0 +1,12 @@
+<div (keydown.enter)="search()" class="boxx">
+    <div *ngFor='let r of sourceList' [dir]="rl">
+        <mat-checkbox style="padding: 5px;" *ngIf="r.periodicalNameEng!=null && en || r.periodicalNameHeb==null" [(ngModel)]="r.checked">
+            <div class="letters">{{r.periodicalNameEng}}</div>
+        </mat-checkbox>
+        <mat-checkbox style="padding: 5px;" *ngIf="r.periodicalNameHeb!=null && he || r.periodicalNameEng==null" [(ngModel)]="r.checked">
+            <div class="letters">{{r.periodicalNameHeb}}</div>
+        </mat-checkbox>
+    </div>
+    <p class="space"></p>
+    <button mat-button class="btn" (click)="search()">{{'search.search'|translate}}</button>
+</div>

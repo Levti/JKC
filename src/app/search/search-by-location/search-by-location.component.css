@@ -1,0 +1,57 @@
+.arrow {
+    cursor: pointer;
+}
+
+.space {
+    width: auto;
+    height: 0px;
+    left: 4px;
+    top: 78px;
+    border: 1px solid #E5E5E5;
+}
+
+.btn {
+    width: 138px;
+    height: 30px;
+    left: 10px;
+    text-align: center;
+    background: #5B6676;
+    border-radius: 15px;
+    color: white;
+    font-family: Rubik;
+    bottom: 0;
+}
+
+.boxx {
+    padding: 0.5cm;
+    position: absolute;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: #5B6676;
+    align-items: center;
+    width: 287px;
+    height: 325px;
+}
+
+
+/* .container{
+    width:100%;
+   } */
+
+ ::ng-deep .mat-input-wrapper {
+    width: 400px !important;
+}
+
+.full-width {
+    width: 100%;
+    font-family: Rubik;
+}
+
+.full-width-z {
+    width: 122px;
+    font-family: Rubik;
+}
+
+.right {
+    text-align: right;
+}

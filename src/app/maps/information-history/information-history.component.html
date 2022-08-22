@@ -1,0 +1,62 @@
+<button mat-icon-button [mat-dialog-close] style="cursor: pointer; color: white;">
+    <mat-icon>close</mat-icon>
+</button>
+<div [ngClass]="'currentTheme' | translate" class="grid">
+    <div class="title">
+        <div class="titleLeft">
+            <h6>{{'information.History'|translate}}</h6>
+        </div>
+        <div class="titleRight">
+            <label class="code">{{histSite.locationSite}} {{histSite.resourceID}}</label>
+            <h6 class="tit">{{histSite.description}} </h6>
+        </div>
+    </div>
+    <div class="units">
+        <div style="height: 50px;">
+            {{'information.books'|translate}} {{arrayBook.length}}, {{unitsJ.length}} {{'information.reference'|translate}}
+        </div>
+        <cdk-virtual-scroll-viewport itemSize="40" style="height: 500px; padding: 10px;">
+            <mat-expansion-panel *ngFor='let a of arrayBook' [expanded]="true">
+                <mat-expansion-panel-header>
+                    {{a.bookName}}
+                </mat-expansion-panel-header>
+                <mat-selection-list #unitSelection>
+                    <mat-list-option *ngFor='let unit of unitsJ' (click)="goToPage(unit)" [value]="unit" [selected]="unit.selected">
+                        {{'information.book'|translate}}: {{unit.bookNum}}, {{'information.section'|translate}}: {{unit.newSection}}
+                    </mat-list-option>
+                </mat-selection-list>
+            </mat-expansion-panel>
+        </cdk-virtual-scroll-viewport>
+    </div>
+    <div class="contents" style="background-color: #FCF3E9; padding: 10px;">
+        <div class="titleUnits">
+            <!-- {{unitsJF.get('unitsJF').value.newSection | json}}, {{unitsJF.get('unitsJF').value.bookNum | json}}, {{unitsJF.get('unitsJF').value.bookName | json}} -->
+            {{event.newSection}}, {{event.bookNum}}, {{event.bookName}}
+            <br>
+            <label style="font-size: 14px;" for="">{{event.bookName}}</label>
+        </div>
+        <div class="book">
+            <cdk-virtual-scroll-viewport *ngFor='let unit of textUnits | async' itemSize="40 " style="height: 200px; padding: 10px;">
+                <div style="padding: 10px;">
+                    {{unit.text}}
+                </div>
+            </cdk-virtual-scroll-viewport>
+            <mat-paginator style="background-color: rgba(252, 243, 233, 1); direction: ltr;" [hidePageSize]="true" [pageSize]="1"></mat-paginator>
+        </div>
+        <br>
+        <div>
+            <label style="color: rgba(147, 78, 31, 1); size: 14px; font-family: Rubik; padding: 10px;">
+                values <img src="assets/picture/Values.jpg" alt="">
+            </label>
+            <br>
+            <mat-tab-group mat-align-tabs="end" animationDuration="0ms">
+                <mat-tab *ngIf="values!=null" label="{{values.description}}">
+                    {{values.typeCode}} <label style="color: #5B6676;" for="">{{'information.Type'|translate}}</label> <img src="assets/picture/type.jpg" alt="">
+                    <br> {{values.source}} <label style="color: #5B6676;" for="">{{'information.Source'|translate}}</label> <img src="assets/picture/source.jpg" alt="">
+                    <br> <label style="color: #5B6676;" for="">{{'information.Remarks'|translate}}</label> {{values.note}} <img src="assets/picture/remarks.jpg" alt="">
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>
+<!-- </form> -->

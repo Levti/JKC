@@ -1,0 +1,346 @@
+@import url('https://fonts.googleapis.com/css?family=Muli:400,700');
+.grid {
+    display: grid;
+    grid-template-columns: 540px 5px 400px;
+    grid-template-rows: 80px 260px 10px 160px 10px auto;
+}
+
+body {
+    width: 972px;
+    height: 600vh;
+    border: 1px solid #000 !important;
+    box-shadow: -4px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.conte {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    /* width: 570px;
+    height: 280px; */
+    background: #FCF3E9;
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
+    float: right;
+}
+
+.sources {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #000000;
+}
+
+.findings {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 4;
+    grid-row-end: 5;
+    /* width: 570px;
+    height: 180px; */
+    background: #FCF3E9;
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
+    float: right;
+}
+
+.finding {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: right;
+    color: #5B6676;
+}
+
+.Article_title {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: right;
+    color: #5B6676;
+}
+
+.as {
+    height: 220px;
+}
+
+.title {
+    top: 0px;
+    /* block-size: 0.5cm; */
+    width: 945px;
+    background: white;
+    display: grid;
+    grid-template-columns: 400px auto 150px;
+    grid-template-rows: 90px;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.titleLeft {
+    padding: 0.2cm;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.titleR {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    padding: 10px;
+}
+
+.tit {
+    font-family: Rubik;
+    font-size: 22px;
+    color: #000000;
+}
+
+.code {
+    font-family: Rubik;
+    font-size: 14px;
+    color: rgba(123, 123, 123, 1);
+}
+
+.subTitle {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-family: Rubik;
+    font-size: 11px;
+    color: #A5A3A3;
+}
+
+.description {
+    position: relative;
+    width: 501px;
+    height: 160px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    float: right;
+    margin-top: 5px;
+}
+
+.disTitle {
+    position: relative;
+    width: 550px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    float: right;
+}
+
+.item {
+    height: 15px;
+}
+
+.pict {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 5;
+    background: #FCF3E9;
+}
+
+.pic {
+    width: 73px;
+    height: 100px;
+    margin-left: 25px;
+}
+
+.btn {
+    float: left;
+    top: 140px;
+    cursor: pointer;
+    box-shadow: none;
+    background: none;
+    color: black;
+}
+
+.btn2 {
+    float: right;
+    cursor: pointer;
+    box-shadow: none;
+    background: none;
+    top: 140px;
+    color: black;
+}
+
+.along {
+    width: 310px;
+    height: 0px;
+    border: 1px solid #EAEAEA;
+    transform: rotate(90deg);
+}
+
+.link {
+    width: 548px;
+    height: 39px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    cursor: pointer !important;
+    color: #29CED9;
+    float: right;
+}
+
+.bott {
+    width: 331px;
+    height: 122px;
+    background: #E2F0F3;
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
+}
+
+.ref {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.bottom {
+    float: right;
+}
+
+.descrip {
+    width: 230px;
+    float: left;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.closestarr {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 6;
+    grid-row-end: 7;
+    background-color: #FCF3E9;
+}
+
+.closestArr {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.nam {
+    width: 230px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: right;
+    color: #000000;
+}
+
+.name {
+    width: 230px;
+    float: left;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.siteDef {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #7B7B7B;
+}
+
+.history {
+    background: linear-gradient( to right, white 85%, #9F5805 15%);
+}
+
+.archiology {
+    background: linear-gradient(to right, white 85%, #292852 15%);
+}
+
+.ltr {
+    direction: ltr;
+}
+
+.rtl {
+    direction: rtl;
+}
+
+.listOfImages {
+    writing-mode: vertical-lr;
+}
+
+.cdk-virtual-scroll-data-source-example .example-viewport {
+    height: 80px;
+    width: 400px;
+    writing-mode: vertical-lr;
+}
+
+.cdk-virtual-scroll-data-source-example .example-viewport .cdk-virtual-scroll-content-wrapper {
+    display: flex;
+    flex-direction: row;
+    writing-mode: vertical-lr;
+}
+
+.cdk-virtual-scroll-data-source-example .example-item {
+    width: 50px;
+    height: 80%;
+    writing-mode: vertical-lr;
+}
+
+.pictures {
+    object-fit: contain;
+    width: 400px;
+    height: 200px;
+}
+
+.ks-carousel img {
+    min-height: 200px;
+}
+
+.handle{
+  margin-top: -34px;
+  margin-bottom: 20px;
+  margin-left: 97%;
+  top: 10px;
+  right: 10px;
+  color: rgb(255, 255, 255);
+  cursor: move;
+  width: 28px;
+  height: 28px;
+}

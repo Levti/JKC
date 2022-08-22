@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css?family=Arimo');
+@import url('https://fonts.googleapis.com/css?family=Rubik');
+html,
+body {
+    height: 100%;
+}
+
+.ltr {
+    text-align: left;
+    direction: rtl;
+}
+
+.rtl {
+    text-align: right;
+    direction: ltr;
+}
+
+.tr {
+    direction: ltr;
+}
+
+.tl {
+    direction: rtl;
+}
+
+.mat-slider-thumb-label {
+    background-color: aqua !important;
+}
+
+.container {
+    display: grid;
+    grid-template-rows: auto, auto, 45px;
+    grid-template-columns: 1fr;
+    grid-template-areas: "header" "contentt" "footer";
+}
+
+.backF {
+    background-color: rgba(246, 246, 246, 1)
+}
+
+app-nav-bar {
+    grid-area: header;
+}
+
+app-maps,
+app-about,
+app-contact-us {
+    grid-area: contentt;
+}
+
+.custom-dialog-container .mat-dialog-container {
+    background: linear-gradient( #292852 16%, white 15%);
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    overflow: visible;
+}
+
+.custom-dialog-container-history .mat-dialog-container {
+    background: linear-gradient( #9F5805 16%, white 15%);
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 0px;
+}
+
+app-nav-bar-buttom {
+    grid-area: footer;
+}
+
+.tooltip {
+    background-color: yellow;
+    color: tomato;
+}
+
+
+.lezichram .mat-dialog-container {
+    padding: 0px;
+}
+
+::ng-deep .mat-form-field {
+    text-align: right !important;
+}

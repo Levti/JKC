@@ -1,0 +1,27 @@
+<div (click)="closeSearch()" [ngClass]="'currentTheme' | translate">
+    <form [formGroup]="contactForm" (ngSubmit)="sendQue()">
+        <div class="images">
+            <div class="w">
+                <img class="image" src="assets/picture/shutterstock_125995700 1.png" alt="">
+                <label class="talk">{{'contact.talkToUs'|translate}}</label>
+                <img *ngIf='he' style="width: 350px; height: 80px;" class="mha" src="assets/picture/He-small.png" alt="">
+                <img *ngIf='!he' style="width: 350px; height: 80px;" class="mha" src="assets/picture/En-small.png" alt="">
+                <label class="comment">{{'contact.comment'|translate}}</label>
+
+                <mat-form-field class="name" style="background: #F3F8FB;">
+                    <input matInput placeholder="{{'contact.name'|translate}}" formControlName="name" [(ngModel)]='name' required>
+                </mat-form-field>
+
+                <mat-form-field class="email" style="background: #F3F8FB;">
+                    <input matInput style="background: #F3F8FB;" placeholder="{{'contact.email'|translate}}" [(ngModel)]='email' formControlName="email" required>
+                </mat-form-field>
+
+                <mat-form-field class="content" style="background: #F3F8FB;">
+                    <input matInput placeholder="{{'contact.content'|translate}}" formControlName="comment" [(ngModel)]='comment' required>
+                </mat-form-field>
+
+                <button mat-button class="btn">{{'contact.send'|translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>

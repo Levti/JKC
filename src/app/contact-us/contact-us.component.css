@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik');
+@import url('https://fonts.googleapis.com/css?family=Arimo');
+.images {
+    display: grid;
+    grid-template-columns: 90% auto;
+    grid-template-rows: 800px;
+    background-size: cover;
+    width: auto;
+    /* background-position: 50% 50%; */
+    background-color: rgba(246, 246, 246, 1);
+}
+
+.w {
+    grid-column-start: 2;
+    grid-column-end: 1;
+    display: grid;
+    grid-template-columns: auto 150px 250px 300px 30px;
+    grid-template-rows: 150px 70px 150px 50px 50px 10px 50px 10px 50px 50px 50px;
+    background: #FFFFFF;
+    background-color: rgba(246, 246, 246, 1);
+}
+
+.image {
+    /* background-image: url('/assets/picture/shutterstock_125995700 1.png'); */
+    grid-row-start: 1;
+    grid-row-end: 12;
+    grid-column-start: 1;
+    grid-column-end: 6;
+    max-height: 788px;
+    mix-blend-mode: color-burn;
+    width: 100%;
+}
+
+.mha {
+    grid-row-start: 3;
+    grid-row-end: 4;
+    grid-column-start: 5;
+    grid-column-end: 4;
+    width: 480px;
+}
+
+.talk {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 5;
+    grid-column-end: 2;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 40px;
+    line-height: 47px;
+    color: rgba(41, 40, 82, 1);
+    padding: 10px;
+}
+
+.comment {
+    grid-row-start: 4;
+    grid-row-end: 5;
+    grid-column-start: 5;
+    grid-column-end: 2;
+    font-family: Arimo;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 109%;
+    color: rgba(41, 40, 82, 1);
+}
+
+.name {
+    grid-row-start: 5;
+    grid-row-end: 6;
+    grid-column-start: 5;
+    grid-column-end: 2;
+    font-family: Arimo;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 109%;
+    color: #7E7E7E;
+    text-align: inherit;
+}
+
+.email {
+    grid-row-start: 7;
+    grid-row-end: 8;
+    grid-column-start: 5;
+    grid-column-end: 2;
+    font-family: Arimo;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 109%;
+    color: #7E7E7E;
+    text-align: inherit;
+}
+
+.content {
+    grid-row-start: 9;
+    grid-row-end: 10;
+    grid-column-start: 5;
+    grid-column-end: 2;
+    font-family: Arimo;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 109%;
+    color: #7E7E7E;
+    text-align: inherit;
+}
+
+.btn {
+    grid-row-start: 11;
+    grid-row-end: 12;
+    grid-column-start: 3;
+    grid-column-end: 2;
+    font-family: Arimo;
+    background: rgba(41, 40, 82, 1);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    color: white;
+}
+
+.sh {
+    grid-row-start: 12;
+    grid-row-end: 13;
+    grid-column-start: 1;
+    grid-column-end: 6;
+    width: 100%;
+}

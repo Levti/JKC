@@ -1,0 +1,26 @@
+.z {
+    width: 968px;
+    height: 700px;
+    background: #484848;
+    padding: 20px
+}
+
+.pict {
+    width: 300px;
+    height: 400px;
+    background: #C4C4C4;
+    float: right;
+    text-align: center;
+}
+
+.p {
+    background-image: url('/assets/picture/Shlomo_Portrait.jpg');
+}
+
+.zich {
+    width: 500px;
+    height: 650px;
+    background: #FFFFFF;
+    float: left;
+    position: -webkit-sticky;
+}

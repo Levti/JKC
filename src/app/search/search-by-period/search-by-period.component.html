@@ -1,0 +1,22 @@
+<div (keydown.enter)="search()" (keydown.enter)="searchs()" class="boxx" [ngClass]="'currentTheme' | translate">
+    <div>
+        <label for="">{{'search.timeLine'|translate}}</label>
+        <!-- <mat-slider class="igx-slider" thumbLabel="true" min="-3500" max="1948" step="100" type="1"></mat-slider> -->
+        <igx-slider class="igx-slider" [(ngModel)]="periodRange" thumbLabel [minValue]="min" [maxValue]="max" [step]="100" [type]="1"></igx-slider>
+    </div>
+    <!-- <button mat-button class="btn" (click)="searchs()">{{'search.search'|translate}}</button> -->
+    <p class="space"></p>
+    <div>
+        <label for="">{{'search.period'|translate}}</label>
+        <cdk-virtual-scroll-viewport itemSize="30" style="height: 150px;" [ngClass]="'LANGUAGE' | translate">
+            <div style="width: 200px;" *ngFor='let r of resultp'>
+                <mat-checkbox matTooltip="{{r.fromYear}} - {{r.upToYear}}" *ngIf="he && r.level==1" [checked]="true" [(ngModel)]="r.checked"> <strong>{{r.nameHeb}}</strong></mat-checkbox>
+                <mat-checkbox matTooltip="{{r.fromYear}} - {{r.upToYear}}" *ngIf="he && r.level!=1" [checked]="true" [(ngModel)]="r.checked">{{r.nameHeb}}</mat-checkbox>
+                <mat-checkbox matTooltip="{{r.fromYear}} - {{r.upToYear}}" *ngIf="en && r.level==1" [checked]="true" [(ngModel)]="r.checked"> <strong>{{r.nameEng}}</strong></mat-checkbox>
+                <mat-checkbox matTooltip="{{r.fromYear}} - {{r.upToYear}}" *ngIf="en && r.level!=1" [checked]="true" [(ngModel)]="r.checked">{{r.nameEng}}</mat-checkbox>
+            </div>
+        </cdk-virtual-scroll-viewport>
+    </div>
+    <p class="space"></p>
+    <button mat-button class="btn" (click)="search()">{{'search.search'|translate}}</button>
+</div>

@@ -1,0 +1,82 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<mat-toolbar [ngClass]="'currentTheme' | translate" class="q backF">
+    <mat-toolbar-row style="padding: 0px;">
+        <button class="btnTrans" *ngIf="he" (click)="useLanguage('he')" style="font-family: Arimo; cursor: pointer;">HE</button>
+        <button class="btnTrans" *ngIf="!he" (click)="useLanguage('en')" style="font-family: Arimo; cursor: pointer;">EN</button>
+        <a class="a flex-item-b" (click)="contact()" [ngClass]="{'butin':!conta, 'buttout':conta}" routerLink="Contact">{{'nav.contacts'|translate}}</a>
+        <a class="a flex-item-a" (click)="partnersF()" routerLink="Partners" mat-menu-item [ngClass]="{'butin':!partners, 'buttout':partners}">{{'information.partners'|translate}}</a>
+        <a class="a flex-item-a" (click)="AboutUs()" routerLink="AboutUs" mat-menu-item [ngClass]="{'butin':!aboutUs, 'buttout':aboutUs}">{{'information.aboutUs'|translate}}</a>
+        <a class="a flex-item-a" (click)="TheCenterF()" routerLink="TheCenter" mat-menu-item [ngClass]="{'butin':!theCenter, 'buttout':theCenter}">{{'information.theCenter'|translate}}</a>
+        <a class="a flex-item-c" (click)="mapF()" [ngClass]="{'butin':!map, 'buttout':map}" href=""> {{'nav.map'|translate}}</a>
+        <span class="spacer"></span>
+
+        <button *ngIf="navDesign" class="butt item-d" mat-button [ngClass]="{'butin':showSo == false, 'buttout':showSo == true}" (click)="openSource()">
+        <mat-icon>arrow_drop_down</mat-icon>
+        {{'search.source'|translate}}
+    </button>
+        <button *ngIf="navDesign" class="butt item-c" mat-button [ngClass]="{'butin':showKi == false, 'buttout':showKi == true}" (click)="openKind()">
+        <mat-icon>arrow_drop_down</mat-icon>
+        {{'search.kind'|translate}}
+    </button>
+        <button *ngIf="navDesign" class="butt item-b" mat-button [ngClass]="{'butin':showPe == false, 'buttout':showPe == true}" (click)="openPeriod()">
+        <mat-icon>arrow_drop_down</mat-icon>
+        {{'search.period'|translate}} 
+    </button>
+        <button *ngIf="navDesign" mat-button class="butt item-a" [ngClass]="{'butin':showLo == false, 'buttout':showLo == true}" (click)="openLocation()">
+        <mat-icon>arrow_drop_down</mat-icon>
+        {{'search.location'|translate}}
+    </button>
+        <a class="navbar-brand" style="padding: 20px; float: right; cursor: pointer; color: #C4C4C4;" href="">
+            <img style=" width: 180px; height: 50px; " *ngIf="!he " src="assets/picture/He-large.png " alt=" ">
+            <img style="width: 180px; height: 50px; " *ngIf="he " src="assets/picture/En-large.png " alt=" ">
+        </a>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="backF" dir="rtl">
+        <div *ngIf="filterNull " style="height: 42px; color: rgba(246, 246, 246, 1); ">.</div>
+        <mat-chip-list *ngIf="filterPeriod.length!=0 && navDesign" style="padding: 4px; " cdkDropList>
+            <label for=" " class="filter ">{{'search.rPeriod'|translate}}:</label>
+            <mat-chip style="float: right; background-color:rgba(255, 255, 255, 1);" (removed)="remove(f) " cdkDrag *ngFor="let f of filterPeriod ">
+                <label *ngIf="!he || f.nameEn=='NULL' " for=" ">{{f.nameHe}}</label>
+                <label *ngIf="he && f.nameEn!='NULL' " for=" ">{{f.nameEn}}</label>
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+        <mat-chip-list *ngIf="filterPerdiocals.length!=0 && navDesign" style="padding: 4px; " cdkDropList>
+            <label for=" " class="filter ">{{'search.rSource'|translate}}:</label>
+            <mat-chip style="float: right; background-color:rgba(255, 255, 255, 1);" (removed)="remove(f) " cdkDrag *ngFor="let f of filterPerdiocals ">
+                <label *ngIf="!he " for=" ">{{f.nameHe}}</label>
+                <label *ngIf="he " for=" ">{{f.nameEn}}</label>
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+        <mat-chip-list *ngIf="filterNature.length!=0 && navDesign" style="padding: 4px; " cdkDropList>
+            <label for=" " class="filter ">{{'search.rType'|translate}}:</label>
+            <mat-chip style="float: right; background-color:rgba(255, 255, 255, 1);" (removed)="remove(f) " cdkDrag *ngFor="let f of filterNature ">
+                <label *ngIf="!he " for=" ">{{f.nameHe}}</label>
+                <label *ngIf="he" for=" ">{{f.nameEn}}</label>
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+        <mat-chip-list *ngIf="filterLocation.length!=0 && navDesign" style="padding: 4px;">
+            <label for="" class="filter">{{'search.rPlace'|translate}}: </label>
+            <mat-chip style="float: right; background-color:rgba(255, 255, 255, 1);" (removed)="remove(f) " *ngFor="let f of filterLocation">
+                <label for="">{{f.nameHe}}</label>
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+        <a *ngIf="navDesign" style="text-decoration-line:underline; margin: 5px; cursor: pointer; color:rgba(41, 40, 82, 1); font-size: large; " (click)="closeFilter()">{{'search.DeleteEverything'|translate}}</a>
+        <a *ngIf="navDesign" style="text-decoration-line:underline; margin: 5px; cursor: pointer; color:rgba(41, 40, 82, 1); font-size: large; " (click)="removeAllSites();">{{'search.emptyMap'|translate}}</a>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div *ngIf="showLo " [ngClass]="{ 'locationH': !he, 'locationE': he} " class="poslocation top2 ">
+    <app-search-by-location>loading</app-search-by-location>
+</div>
+<div *ngIf="showPe " [ngClass]="{ 'periodH':!he, 'periodE':he} " class="posperiod top2 ">
+    <app-search-by-period>loading</app-search-by-period>
+</div>
+<div *ngIf="showKi " [ngClass]="{ 'kindH':!he, 'kindE':he} " class="poskind top2 ">
+    <app-search-by-kind>loading</app-search-by-kind>
+</div>
+<div *ngIf="showSo " [ngClass]="{ 'sourceH':!he, 'sourceE':he} " class="possource top2 ">
+    <app-search-by-source>loading</app-search-by-source>
+</div>

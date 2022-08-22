@@ -1,0 +1,56 @@
+<div>
+    <label for="">{{'walkingPath.walkingRoute'|translate}}</label>
+    <br>
+    <div class="my-list" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+        <div *ngFor="let xy of computes.xySelectionRel; let index=index">
+            <button *ngIf="computes.xySelectionRel.length>2" mat-icon-button (click)="removeXY(index)" [disabled]="calcWalkingPath"><mat-icon>close</mat-icon>
+            </button>
+            <mat-form-field style="width: 200px;">
+                <input #input [disabled]="calcWalkingPath" style="font-family: Rubik;" [value]="xy" autocomplete="off" matInput (click)="computes.xyDis($event, index)" type="text" placeholder="{{'walkingPath.enterCoordinates'|translate}}">
+            </mat-form-field>
+        </div>
+    </div>
+    <br>
+    <button mat-button style="
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: right;
+    text-decoration-line: underline;
+    color: #292852;" *ngIf="computes.xySelectionRel[0]!=null && computes.xySelectionRel[1]!=null" (click)="addPoint()" [disabled]="calcWalkingPath || computes.xySelectionRel[computes.xySelectionRel.length-1]==null">{{'walkingPath.AdditionalD'|translate}}</button>
+    <br>
+    <mat-radio-group [ngClass]="{'ltr':!he, 'rtl':he}" style="letter-spacing: 2px; font-style: Rubik; font-weight: bold;">
+        <mat-radio-button [disabled]="calcWalkingPath" (change)="selection = $event.value" [value]="1" style="font-family: Rubik;">{{'walkingPath.ModernRoute'|translate}}</mat-radio-button>
+        <br>
+        <mat-radio-button [disabled]="calcWalkingPath" (change)="selection = $event.value" [value]="2" style="font-family: Rubik;">{{'walkingPath.DirectR'|translate}}</mat-radio-button>
+    </mat-radio-group>
+    <br>
+    <button *ngIf="!newWay" mat-button style="flex-direction: row;
+    align-items: flex-start;
+    position: relative;
+    border: 1px solid #292852;
+    box-sizing: border-box;
+    font-family: Rubik;
+    border-radius: 5px;" (click)="howCalc()">{{'walkingPath.Calculate'|translate}}</button>
+    <button *ngIf="newWay" mat-button style="flex-direction: row;
+            align-items: flex-start;
+            position: relative;
+            border: 1px solid #292852;
+            box-sizing: border-box;
+            font-family: Rubik;
+            border-radius: 5px;" (click)="recalculateWalkingPath()">{{'walkingPath.recalculate'|translate}}</button>
+    <br>
+    <br>
+    <div *ngIf="isLoadingWalkindPath">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="isChart">
+        <!-- <button mat-button style="height: auto;" (click)="openBigChart()"><mat-icon>launch</mat-icon></button> -->
+        <label for="">{{'walkingPath.WalkingT'|translate}}: {{durationWay}} {{'walkingPath.minutes'|translate}} </label>
+        <br>
+        <label for="">{{'walkingPath.distance'|translate}}: {{meterWay}} {{'walkingPath.meter'|translate}} </label>
+        <canvas [colors]="chartColors" [legend]="lineChartLegend" baseChart [datasets]="chartData" [options]="lineChartOptions" [labels]="chartLabels" [chartType]="lineChartType">
+        </canvas>
+    </div>
+</div>

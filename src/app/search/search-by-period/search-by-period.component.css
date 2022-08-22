@@ -1,0 +1,68 @@
+/* @import '~igniteui-angular/lib/core/styles/themes/index'; */
+
+.arrow {
+    cursor: pointer;
+}
+
+.space {
+    width: auto;
+    left: 4px;
+    border: 2px solid #E5E5E5;
+    margin-top: 10px;
+    margin-bottom: 2px;
+}
+
+.btn {
+    width: 138px;
+    height: 30px;
+    left: 6px;
+    font-family: Rubik;
+    background: #5B6676;
+    border-radius: 15px;
+    color: white;
+}
+
+.boxx {
+    padding: 15px;
+    position: absolute;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: #5B6676;
+    width: 287px;
+    height: 380px;
+}
+
+.full-width {
+    width: 100%;
+    font-family: Rubik;
+}
+
+.half-full-width {
+    width: 110px;
+    font-family: Rubik;
+}
+
+.igx-slider {
+    display: flex;
+    position: relative;
+    height: 3rem;
+    flex-grow: 2;
+    align-items: center;
+    transition: all .2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+::ng-deep .mat-checkbox-ripple .mat-ripple-element {
+    background-color: rgba(40, 41, 82, 1) !important;
+}
+
+ ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: rgba(40, 41, 82, 1) !important;
+}
+
+ ::ng-deep .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: rgba(40, 41, 82, 1) !important;
+}
+
+::ng-deep igx-thumb.igx-slider_thumb-from.ng-star-inserted {
+    color: red;
+}

@@ -1,0 +1,22 @@
+<div [ngClass]="'currentTheme' | translate" class="boxx" (keydown.enter)="search()">
+    <div>
+        <mat-form-field class="full-width col" [ngClass]="'text-align' | translate">
+            <input matInput #endInput type="text" [(ngModel)]="selectedValue" (keyup)="searchL($event.target.value)" placeholder="{{'search.free'|translate}}" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" style="direction: rtl;">
+                <mat-option style="font-family: Rubik; float: right;" *ngFor="let place of placeSearch" [value]="place">
+                    <span>{{ place }}</span>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div *ngIf="isLoadingData">
+        <mat-progress-bar mode="buffer"></mat-progress-bar>
+    </div>
+    <!-- <mat-list>
+        <mat-list-item *ngFor="let option of placeSearch" >
+            {{option}}
+        </mat-list-item>
+    </mat-list> -->
+    <p class="space"></p>
+    <button mat-button class="btn" (click)="search()">{{'search.search'|translate}}</button>
+</div>

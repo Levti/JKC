@@ -1,0 +1,134 @@
+
+
+<button mat-icon-button [mat-dialog-close] style="cursor: pointer; color: white;">
+                <mat-icon>close</mat-icon>
+</button>
+
+<div cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+  <div class="handle" cdkDragHandle>
+      <svg width="28px" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+        <path d="M0 0h24v24H0z" fill="none"></path>
+      </svg>
+  </div>
+
+<div [ngClass]="'currentTheme' | translate" class="grid">
+    <div class="title">
+        <div class="titleLeft">
+            <h6>ארכיאולוגי</h6>
+        </div>
+        <div class="titleR">
+            <h6 *ngIf="he" class="code">{{archSite.siteId}} ({{archSite.labelY}}, {{archSite.labelX}})</h6>
+            <h6 *ngIf="en" class="code">{{archSite.siteId}} ({{archSite.labelX}}, {{archSite.labelY}})</h6>
+            <!-- <h6 class="kod">{{archSite.labelY}}, {{archSite.labelX}}</h6> -->
+            <!-- <h6 *ngIf="en" class="kod">{{archSite.labelY}}, {{archSite.labelX}}</h6> -->
+            <h6 *ngIf="he" class="tit">{{archSite.siteNames[1]}}</h6>
+            <h6 *ngIf="en" class="tit">{{archSite.siteNames[2]}}</h6>
+            <h6 *ngIf="showHebName && en" class="tit">{{archSite.siteNames[1]}} </h6>
+            <h6 *ngIf="he" class="subTitle">{{periods[1]}}</h6>
+            <h6 *ngIf="en" class="subTitle">{{periods[0]}}</h6>
+        </div>
+    </div>
+    <div class="conte">
+        <!-- <mat-accordion multi> -->
+        <div [ngClass]="{'ltr':en==true, 'rtl':he==true}" style="padding: 5px; color: #494791;">
+            <img src="assets/picture/sources.png" alt=""> {{'information.sources'|translate}}
+        </div>
+        <cdk-virtual-scroll-viewport itemSize="50" style="height: 230px; background-color: #FCF3E9;">
+            <div *ngFor="let site of archSite.lst_src">
+                <mat-accordion>
+                    <mat-expansion-panel style=" width: 530px; background: #FCF3E9;">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="Article_title" *ngIf="he">
+                                <a href="{{site.url}}" target="_blank" *ngIf="site.url!=null">{{site.fullbib}}</a>
+                                <label *ngIf="site.url==null">{{site.fullbib}}</label>
+                            </mat-panel-title>
+                            <mat-panel-title *ngIf="en">
+                                <a href="{{site.url}}" target="_blank" *ngIf="site.url!=null">{{site.fullbib}}</a>
+                                <label *ngIf="site.url==null">{{site.fullbib}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <cdk-virtual-scroll-viewport style="float: right;" itemSize="40" class="description">
+                            <p>{{site.articleTitle}}</p>
+                            <div *ngIf="he">{{site.abstractH}}</div>
+                            <div *ngIf="en">{{site.abstractE}}</div>
+                        </cdk-virtual-scroll-viewport>
+                        <br>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </cdk-virtual-scroll-viewport>
+        <!-- </mat-accordion> -->
+    </div>
+    <div style="float: left;" class="pict">
+        <!--<img src="assets/picture/picture.png" alt="" style="padding: 5px;">-->
+        <!--<label for="" style="padding: 5px; color: #494791;">{{'information.picture'|translate}}</label>-->
+        <ul *ngIf="isImage">
+            <ks-carousel class="ks-carousel" style="direction: ltr;" [id]="101" [images]="arrayImages" [carouselConfig]="{maxWidth: '400px', maxHeight: '250px', showArrows: true, objectFit: 'contain', keyboardEnable: true, modalGalleryEnable: true, legacyIE11Mode: false}"
+                [previewConfig]="{visible: true, number: 5, width: '50px', maxHeight: '50px'}">
+            </ks-carousel>
+            <!-- <li ng-repeat="image in arrayImages | limitTo: 1">
+                <div style="padding: 10px; width: 400px; height: 250px;">
+                    <button class="btn" mat-mini-fab color="null" (click)="i=i-1" [disabled]="i==0"><mat-icon>navigate_before</mat-icon></button>
+                    <button class="btn2" mat-mini-fab color="null" (click)="i=i+1" [disabled]="i==arrayImages.length-1"><mat-icon>navigate_next</mat-icon></button>
+                    <img class="pictures" [src]="arrayImages[i].imagePath+arrayImages[i].imageName" alt="arrayImages[i].imageName">
+                </div>
+            </li>
+            <div class="cdk-virtual-scroll-data-source-example">
+                <cdk-virtual-scroll-viewport orientation="horizontal" itemSize="50" class="example-viewport">
+                    <div *cdkVirtualFor="let item of arrayImages; let index=index" class="example-item">
+                        <img (click)="i=index" [src]="item.imagePath+item.imageName" alt="item.imageName" style="height: 50px; width: 50px; padding: 3px;"></div>
+                </cdk-virtual-scroll-viewport>
+            </div> -->
+
+            <!-- <ks-carousel style="direction: ltr;" [id]="101" [images]="larrayImages" [carouselConfig]="{maxWidth: '400px', maxHeight: '250px', showArrows: true, objectFit: 'contain', keyboardEnable: true, modalGalleryEnable: true, legacyIE11Mode: false}" [previewConfig]="{visible: true, number: 5, width: '50px', maxHeight: '50px'}">
+            </ks-carousel> -->
+        </ul>
+    </div>
+    <div class="findings">
+        <img style="padding: 5px;" src="assets/picture/findings.png" alt="">
+        <label for="" style="color: #494791;">{{'information.findings'|translate}}</label>
+        <cdk-virtual-scroll-viewport itemSize="50" style="height: 125px;">
+            <div>
+                <label style="margin: 10px;" *ngIf="!lstFindingIs" for="">  {{'information.Nfindings'|translate}}</label>
+                <mat-list>
+                    <mat-list-item style="white-space: pre;" class="finding" *ngFor="let f of lstFinding">
+                        <div *ngIf="f.descriptionHe != null || f.findingSiteNatureHe != null">
+                            <label *ngIf="he && f.descriptionHe != null">{{f.descriptionHe.trim()}}</label>
+                            <label *ngIf="he && f.descriptionHe==null" for="">{{f.findingSiteNatureHe}}</label>
+                            <label *ngIf="en">{{f.descriptionEn}}</label>
+                            <label for="" *ngIf="f.periodNameHe!=null"><label *ngIf="he"> ({{f.periodNameHe.trim()}})</label></label>
+                            <label *ngIf="en" for=""> {{f.periodNameEn}}</label>
+                            <mat-divider></mat-divider>
+                        </div>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+        </cdk-virtual-scroll-viewport>
+    </div>
+    <div class="closestarr ">
+        <img style="height: 24px; width: 24px; padding: 5px; " src="assets/picture/closestSite.png " alt=" ">
+        <label for=" " style="padding: 5px; color: #494791; ">{{'information.siten'|translate}}</label>
+        <div class="closestArr ">
+            <div style="padding-left: 10px; " *ngFor="let c of closestArch ">
+                <mat-card (click)="openInformation(c) " style="width: auto; height: 120px; cursor: pointer; padding: 10px; " [ngClass]="{ 'archiology':c.siteDef, 'history':!c.siteDef} ">
+                    <mat-card-content>
+                        <img class="pic " src="assets/picture/Logo.jpg.png " alt=" ">
+                        <div style="float: left " class="nam ">
+                            <label style="font-family: Rubik; font-style: normal; font-weight: normal; font-size: 14px; line-height: 17px; text-align: right; color: #7B7B7B; ">{{c.resourceID}}</label>
+                            <label style="float: left; " class="siteDef ">{{c.siteDef}}</label>
+                            <br>
+                            <label class="name ">{{c.name}}</label>
+                            <br>
+                            <label class="descrip ">{{c.description}}</label>
+                            <br>
+                            <label *ngIf="he" style="font-family: Rubik; font-size: 14px; line-height: 17px; text-align: right; color: #9B9898; ">({{c.pointY}}, {{c.pointX}})</label>
+                            <label *ngIf="en" style="font-family: Rubik; font-size: 14px; line-height: 17px; text-align: right; color: #9B9898; ">({{c.pointX}}, {{c.pointY}})</label>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

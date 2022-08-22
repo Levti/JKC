@@ -1,0 +1,10 @@
+<div (keydown.enter)="search()" class="boxx">
+    <cdk-virtual-scroll-viewport itemSize="30" style="height: 200px;" [ngClass]="'LANGUAGE' | translate">
+        <div *ngFor='let re of siteTypeList' [dir]="rl">
+            <mat-checkbox *ngIf="re.findingSiteTypeHeb!=null && he || re.findingSiteTypeEng==null && re.findingSiteTypeEng!='TEMP'" [(ngModel)]="re.checked"> {{re.findingSiteTypeHeb}} </mat-checkbox>
+            <mat-checkbox *ngIf="re.findingSiteTypeEng!=null && en && re.findingSiteTypeEng!='TEMP'" [(ngModel)]="re.checked"> {{re.findingSiteTypeEng}} </mat-checkbox>
+        </div>
+    </cdk-virtual-scroll-viewport>
+    <p class="space"></p>
+    <button mat-button class="btn" (click)="search()">{{'search.search'|translate}}</button>
+</div>

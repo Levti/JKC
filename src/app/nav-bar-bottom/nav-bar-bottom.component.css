@@ -1,0 +1,7 @@
+.toolbarNav {
+    z-index: 99 !important;
+    justify-content: space-between;
+    box-sizing: border-box;
+    /* background: rgba(27, 42, 81, 1); */
+    ;
+}

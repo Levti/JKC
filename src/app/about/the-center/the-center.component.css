@@ -1,0 +1,106 @@
+.first {
+    display: grid;
+    grid-template-rows: 10px 150px 150px 100px 300px 200px 80px;
+    grid-template-columns: auto 20%;
+    background: rgba(246, 246, 246, 1);
+}
+
+.imagePlace {
+    max-height: 788px;
+    mix-blend-mode: color-burn;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 8;
+    width: 100%;
+}
+
+.gold {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    display: grid;
+    grid-template-columns: 100px 100px auto 200px 150px 140px;
+    grid-template-rows: 50px 100px auto;
+    color: rgba(161, 102, 33, 1);
+}
+
+.pur {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 7;
+    display: grid;
+    grid-template-columns: 100px 100px auto 200px 150px 140px;
+    grid-template-rows: 50px 110px 320px 100px;
+    color: rgba(41, 40, 82, 1);
+}
+
+.funded {
+    grid-row-start: 4;
+    grid-row-end: 5;
+    grid-column-start: 5;
+    grid-column-end: 3;
+}
+
+.mha1 {
+    grid-row-start: 4;
+    grid-row-end: 5;
+    grid-column-start: 5;
+    grid-column-end: 6;
+    top: 160px;
+}
+
+.mha2 {
+    grid-column-start: 5;
+    grid-column-end: 6;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+.inf1 {
+    grid-row-start: 4;
+    grid-row-end: 5;
+    grid-column-start: 3;
+    grid-column-end: 5;
+    color: rgba(161, 102, 33, 1);
+}
+
+.inf {
+    font-family: Arimo;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 25px;
+    font-size: 16px;
+    padding: 20px;
+}
+
+.inf2 {
+    grid-row-start: 3;
+    grid-row-end: 4;
+    grid-column-start: 3;
+    grid-column-end: 5;
+    color: rgba(41, 40, 82, 1);
+}
+
+.jer {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 5;
+    grid-column-end: 1;
+    font-family: Rubik;
+    font-size: 30px;
+    line-height: 47px;
+    color: rgba(41, 40, 82, 1);
+}
+
+.purp {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 3;
+    grid-column-end: 5;
+    font-family: Rubik;
+    font-size: 30px;
+    line-height: 47px;
+}

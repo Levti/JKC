@@ -1,0 +1,43 @@
+
+<label *ngIf="computes.locationToViewshed" for="">{{'viewShed.selectLocation'|translate}}</label>
+<form validate *ngIf="!computes.locationToViewshed" [formGroup]="computes.viewShedForm">
+    <label style="font-size: 18px;" for="">{{'viewShed.viewShed'|translate}}</label>
+    <br>
+    <label style="font-size: 14px;" for="">{{'viewShed.viewShedInsertParameters'|translate}}</label>
+    <table>
+        <tr>
+            <td style="padding: 2px">
+                <mat-form-field style="width: 130px;">
+                    <input [ngClass]="{'meterHe':he, 'meterEn':!he}" matInput type="text" onlyNumber formControlName="height" placeholder="{{'viewShed.viewShedHeight'|translate}}" autocomplete="off" />
+                    <div *ngIf="computes.viewShedForm.get('height').errors">{{'viewShed.errorH'|translate}}</div>
+                </mat-form-field>
+            </td>
+            <td style="padding: 2px; ">
+                <mat-form-field style="width: 130px; ">
+                    <input [ngClass]="{'meterHe':he, 'meterEn':!he}" (keyup)="computes.keyupViewShed(computes.viewShedForm.get('radius').value)" matInput type="text " onlyNumber formControlName="radius" placeholder="{{'viewShed.viewShedRadius'|translate}} " autocomplete="off"
+                    />
+                    <div *ngIf="computes.viewShedForm.get('radius').errors">{{'viewShed.errorR'|translate}}</div>
+                </mat-form-field>
+            </td>
+        </tr>
+    </table>
+    <button *ngIf="!reCalc" mat-button [disabled]="computes.viewShedForm.get('radius').errors?.required || computes.viewShedForm.get('height').errors?.required" style="flex-direction: row;
+    align-items: flex-start;
+    position: relative;
+    font-family: Rubik;
+    border: 1px solid #292852;
+    box-sizing: border-box;
+    border-radius: 5px;" (click)="calculationViewshed() ">{{'viewShed.calculation'|translate}}</button>
+
+    <button *ngIf="reCalc" mat-button [disabled]="computes.viewShedForm.get('radius').errors?.required || computes.viewShedForm.get('height').errors?.required" style="flex-direction: row;
+        align-items: flex-start;
+        position: relative;
+        font-family: Rubik;
+        border: 1px solid #292852;
+        box-sizing: border-box;
+        border-radius: 5px;" (click)="recalculationViewshed()">{{'walkingPath.recalculate'|translate}}</button>
+    <div *ngIf="isLoadingViewShed ">
+        <br>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+</form>

@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css?family=Muli:400,700');
+@import url('https://fonts.googleapis.com/css?family=Arimo');
+.q {
+    position: fixed;
+    z-index: 1000;
+    height: 70px;
+    top: 0px;
+    width: 100%;
+}
+
+.spacer {
+    flex: auto 1 1;
+}
+
+.container-fluid {
+    float: right;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.a {
+    position: relative;
+    padding: 0.5cm;
+    text-decoration: none;
+    font-family: Arimo;
+    font-size: 17px;
+}
+
+.poslocation {
+    z-index: 99 !important;
+    position: absolute;
+    position: fixed;
+}
+
+.locationH {
+    direction: rtl;
+    right: 160px;
+}
+
+.locationE {
+    left: 220px;
+}
+
+.posperiod {
+    z-index: 99 !important;
+    position: relative;
+    position: fixed;
+}
+
+.periodH {
+    right: 340px;
+    direction: rtl;
+}
+
+.periodE {
+    left: 400px;
+}
+
+.poskind {
+    z-index: 99 !important;
+    position: relative;
+    position: fixed;
+}
+
+.kindH {
+    right: 540px;
+    direction: rtl;
+}
+
+.kindE {
+    left: 600px;
+}
+
+.possource {
+    z-index: 99 !important;
+    position: relative;
+    position: fixed;
+}
+
+.sourceH {
+    right: 720px;
+    direction: rtl;
+}
+
+.sourceE {
+    left: 780px;
+}
+
+.butt {
+    font-family: Arimo;
+    font-size: large;
+    width: 190px;
+    /* color: #C4C4C4; */
+}
+
+.butin {
+    color: rgba(41, 40, 82, 1);
+}
+
+.buttout {
+    color: rgba(147, 78, 31, 1);
+}
+
+.btnTrans {
+    width: 74px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    left: 0;
+    z-index: 99 !important;
+}
+
+.item-a {
+    grid-column-start: 1;
+}
+
+.top2 {
+    top: 105px
+}
+
+.filter {
+    font-family: Arimo;
+    font-style: normal;
+    font-size: 14px;
+    text-align: right;
+    color: #7B7B7B;
+}

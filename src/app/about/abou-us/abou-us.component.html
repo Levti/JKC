@@ -1,0 +1,105 @@
+<div id="Researcher" #Researcher class="third">
+    <img class="imagePlace" src="assets/picture/shutterstock_125995700 1.png" alt="">
+    <div class="titleRes">{{'information.aboutUs'|translate}}</div>
+    <div class="centerDM">
+        <a *ngIf="he" href="https://history.biu.ac.il/node/1893" target="_blank">{{'information.Faust'|translate}}</a>
+        <a *ngIf="en" href="https://history.biu.ac.il/en/node/1957" target="_blank">{{'information.Faust'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentAF'|translate}}</label>
+        <br>
+        <br>
+        <a href="https://haifa.academia.edu/RoniShweka" target="_blank">{{'information.Shweka'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentRS'|translate}}</label>
+        <br>
+        <br>
+    </div>
+    <div class="Researchers">{{'information.Researchers'|translate}}</div>
+    <div class="research">
+        <a *ngIf="he" href="https://lisa.biu.ac.il/joshuaschwartz_h" target="_blank">{{'information.Schwartz'|translate}}</a>
+        <a *ngIf="en" href="https://lisa.biu.ac.il/en/node/11833" target="_blank">{{'information.Schwartz'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentJS'|translate}}</label>
+        <br>
+        <br>
+        <a *ngIf="he" href="https://is.biu.ac.il/maayanz" target="_blank">{{'information.Zhitomirsky'|translate}}</a>
+        <a *ngIf="en" href="https://is.biu.ac.il/en/maayanze" target="_blank">{{'information.Zhitomirsky'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentMZ'|translate}}</label>
+        <br>
+        <br>
+        <a *ngIf="he" href="https://is.biu.ac.il/node/1013" target="_blank">{{'information.Prebor'|translate}}</a>
+        <a *ngIf="en" href="https://is.biu.ac.il/en/node/1156" target="_blank">{{'information.Prebor'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentGP'|translate}}</label>
+        <br>
+        <br>
+        <a href="https://il.linkedin.com/in/yuvalkry" target="_blank">{{'information.Krymolowski'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;" target="_blank">{{'information.departmentYK'|translate}}</label>
+        <br>
+        <br> {{'information.AShveka'|translate}}
+        <br>
+        <label style="font-size: 14px;" for="">{{'information.departmentRS'|translate}}</label>
+    </div>
+    <div class="Staffs">{{'information.Staff'|translate}}</div>
+    <div class="staff">
+        {{'information.Grosman'|translate}}
+        <br>
+        <br> {{'information.Gelber'|translate}}
+        <br><br>{{'information.Ordentlich'|translate}}
+    </div>
+    <div class="committee">
+        <label style="font-size: 30px; line-height: 40px;" for="">{{'information.Committee'|translate}}</label>
+        <br>
+        <br>
+        <br>
+        <a href="https://haifa.academia.edu/AdiErlich" target="_blank">{{'information.Adi'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentAE'|translate}}</label>
+        <br>
+        <br>
+        <a *ngIf="he" href="https://history.biu.ac.il/node/1893" target="_blank">{{'information.Faust2'|translate}}</a>
+        <a *ngIf="en" href="https://history.biu.ac.il/en/node/1957" target="_blank">{{'information.Faust2'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentAF'|translate}}</label>
+        <br>
+        <br>
+        <a *ngIf="he" href="https://lisa.biu.ac.il/joshuaschwartz_h" target="_blank">{{'information.Schwartz2'|translate}}</a>
+        <a *ngIf="en" href="https://lisa.biu.ac.il/en/node/11833" target="_blank">{{'information.Schwartz2'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentJS'|translate}}</label>
+        <br>
+        <br>
+        <a *ngIf="he" href="https://is.biu.ac.il/maayanz" target="_blank">{{'information.Zhitomirsky2'|translate}}</a>
+        <a *ngIf="en" href="https://is.biu.ac.il/en/maayanze" target="_blank">{{'information.Zhitomirsky2'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentMZ'|translate}}</label>
+        <br>
+        <br>
+        <a *ngIf="he" href="https://is.biu.ac.il/node/1013" target="_blank">{{'information.Prebor2'|translate}}</a>
+        <a *ngIf="en" href="https://is.biu.ac.il/en/node/1156" target="_blank">{{'information.Prebor2'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentGP'|translate}}</label>
+        <br>
+        <br>
+        <a href="http://www.dcs.bbk.ac.uk/~mark/" target="_blank">{{'information.Levene'|translate}}</a>
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentML'|translate}}</label>
+        <br>
+        <br> {{'information.Altshuler'|translate}}
+        <br>
+        <label style="font-size: 14px;">{{'information.departmentAA'|translate}}</label>
+    </div>
+    <div class="lez">
+        <label style="font-size: 30px; line-height: 40px;" for="">{{'information.lezichram'|translate}}</label>
+        <div class="lezich">
+            <br>
+            <br>
+            <a style="text-decoration-line: underline; cursor: pointer;" (click)="openI(1)">{{'information.Bunimovitz'|translate}}</a>
+            <br>
+            <br>
+            <a style="text-decoration-line: underline; cursor: pointer;" (click)="openI(2)">{{'information.jehudit'|translate}}</a>
+        </div>
+    </div>
+</div>

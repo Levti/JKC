@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Muli:400,700');
+@import url('https://fonts.googleapis.com/css?family=Rubik');
+.grid {
+    display: grid;
+    grid-template-columns: 650px 5px 300px;
+    grid-template-rows: 75px 10px 580px;
+}
+
+.title {
+    top: 0px;
+    width: 945px;
+    background: white;
+    display: grid;
+    grid-template-columns: 100px auto 400px;
+    grid-template-rows: 90px;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.titleLeft {
+    padding: 0.2cm;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    left: 5px;
+    padding: 5px;
+}
+
+.titleRight {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    padding-right: 0.2cm;
+    padding: 5px;
+}
+
+.contents {
+    grid-template-columns: auto;
+    grid-template-rows: 60px 10px 350px 150px 10px auto 50px;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.titleUnits {
+    font-family: Rubik;
+    font-size: 22px;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    padding: 10px;
+}
+
+.book {
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+.units {
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+
+.page {
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+.unit {
+    position: relative;
+    width: 501px;
+    height: 250px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    margin-top: 5px;
+}
+
+::ng-deep.mat-pseudo-checkbox {
+    display: none !important;
+}

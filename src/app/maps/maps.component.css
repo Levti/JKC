@@ -1,0 +1,631 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik');
+
+
+.grid {
+    display: grid;
+    grid-template-columns: auto 2px 360px;
+    grid-template-rows: 80vh 5px;
+}
+
+.map {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+.mapB {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.mapS {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+td {
+    width: 100px;
+}
+
+.meterEn {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="20"><text x="5" y="19"  style="font: 14px Arial;">  meter  </text></svg>') no-repeat;
+    font: 14px "Rubik";
+    height: 30px;
+    padding-left: 40px;
+    width: 100px;
+}
+
+.meterHe {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="20"><text x="5" y="19"  style="font: 14px Arial;"> מטר </text></svg>') no-repeat;
+    font: 14px "Rubik";
+    height: 30px;
+    padding-left: 40px;
+    width: 100px;
+}
+
+.expand {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    z-index: 4 !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+    color: #797b81;
+    cursor: pointer;
+    width: 200px;
+    height: 23px;
+    -webkit-transform: rotate(270deg);
+    -webkit-transform-origin: right top;
+    -ms-transform: rotate(270deg);
+    -ms-transform-origin: right top;
+    transform: rotate(270deg);
+    transform-origin: right 35px;
+    position: absolute;
+}
+
+.info {
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-template-columns: auto 10px 360px;
+    grid-template-rows: 620px 5px;
+    padding: 5px;
+    background: rgba(246, 246, 246, 1);
+}
+
+.xyScreenListOpen {
+    z-index: 5 !important;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    margin-bottom: 0px;
+    text-align: right;
+    margin-right: 380px;
+    /* grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    position: absolute;
+    z-index: 5 !important;
+    text-align: right;
+    right: 380px;
+    bottom: 1cm; */
+}
+
+.scale {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    text-align: left;
+    margin-left: 50px;
+    display: table-cell;
+}
+
+.scaleMeter {
+    white-space: nowrap;
+    outline-offset: -1px;
+    padding-left: 1px;
+}
+
+.scaleWidth {
+    display: inline-block;
+    height: 4px;
+    border: 2px solid rgb(10, 10, 10);
+    border-top: none;
+}
+
+.tooltipClass {
+    background: none;
+}
+
+.example-viewport {
+    height: 50px;
+    overflow: auto;
+}
+
+.xyScreenListOpenT {
+    z-index: 5 !important;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    margin-bottom: 0px;
+    text-align: right;
+    margin-right: 10px;
+    /*background-color: #f6f6f6;*/
+}
+
+/*#ITM{
+  margin-top: -10px;
+}*/
+
+
+.orthoBgPhotoChange{
+  margin-bottom: 35px;
+}
+
+
+.hello {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    position: absolute;
+    right: 140px;
+    bottom: 0;
+}
+
+.history {
+    background: linear-gradient( to right, white 85%, #9F5805 15%);
+}
+
+.archiology {
+    background: linear-gradient(to right, white 85%, #292852 15%);
+}
+
+.footer {
+    right: 0;
+    /* background-color: none; */
+}
+
+mat-paginator-container {
+    justify-content: center;
+}
+
+mat-paginator-range-label {
+    order: 2;
+}
+
+mat-paginator-navigation-previous {
+    order: 3;
+}
+
+mat-paginator-navigation-next {
+    order: 1;
+}
+
+.descrip {
+    width: 230px;
+    float: left;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pic {
+    width: 73px;
+    height: 109px;
+    margin-left: 25px;
+}
+
+.lightb {
+    background: rgba(255, 255, 255, 1);
+}
+
+.purple {
+    background: rgba(255, 255, 255, 1);
+}
+
+.siteDef {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #7B7B7B;
+}
+
+.kod {
+    width: 106px;
+    height: 12px;
+    left: 1208px;
+    /* top: 127px; */
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: right;
+    color: #7B7B7B;
+}
+
+.nam {
+    width: 230px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: right;
+    color: #000000;
+}
+
+.name {
+    width: 230px;
+    float: left;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bbtn {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    z-index: 4 !important;
+    text-align: center;
+    padding: 0;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+    color: #797b81;
+    cursor: pointer;
+    background-color: #fff;
+    height: 28px;
+    width: 28px;
+    position: absolute;
+}
+
+.googleMap {
+    background-color: rgba(123, 123, 123, 1);
+    margin-top: 265px;
+}
+
+.viewshedListOpen {
+    left: 430px;
+}
+
+.viewshedListClose {
+    left: 60px;
+}
+
+.viewshed {
+    z-index: 4 !important;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    width: 290px;
+    height: 300px;
+    margin-top: 45px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 10px;
+    font-family: Rubik;
+    position: absolute;
+}
+
+mat-form-field {
+    width: 59px;
+    font-size: 12px;
+}
+
+.btnViewShed {
+    margin-top: 160px;
+}
+
+.btnDisTime {
+    margin-top: 195px;
+}
+
+.btnAzimuth {
+    margin-top: 230px;
+}
+
+.btnBG {
+    margin-top: 230px;
+}
+
+.btnMeasure {
+    margin-top: 125px;
+}
+
+.Regions {
+  margin-top: 300px;
+}
+
+.btnRectangle {
+    margin-top: 150px;
+}
+
+.sumbtn {
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    position: absolute;
+    z-index: 5 !important;
+    top: 110px;
+    font-size: 22px;
+    font-weight: bolder;
+}
+
+.rightS {
+    right: 380px;
+}
+
+.rightB {
+    right: 20px;
+}
+
+.expandSEN {
+    margin-top: 270px;
+    left: 225px;
+}
+
+.expandBEN {
+    margin-top: 310px;
+    left: -140px;
+}
+
+.rightSEN {
+    left: 430px;
+}
+
+.rightBEN {
+    left: 60px;
+}
+
+.measurepe {
+    left: 387px;
+}
+
+.viewshedpe {
+    left: 387px;
+}
+
+.disandtimepe {
+    left: 387px;
+}
+
+.googleMappe {
+    left: 387px;
+}
+
+.disAndTimeEng {
+    left: 25px;
+}
+
+.viewshedEN {
+    left: 25px;
+}
+
+.measurepeEN {
+    left: 25px;
+}
+
+.googleMapEng {
+    left: 25px;
+}
+
+.disAndTimeHeb {
+    margin-left: 26px;
+}
+
+.googleMapHe {
+    margin-left: 26px;
+}
+
+.viewshedHe {
+    position: absolute;
+    margin-left: 26px;
+}
+
+.measureph {
+    margin-left: 26px;
+}
+
+.expandS {
+    margin-top: 15px;
+    right: 370px;
+}
+
+.expandB {
+    margin-top: 15px;
+    right: 0px;
+}
+
+.calc {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 5px 16px;
+    position: relative;
+    width: 75px;
+    height: 30px;
+    border: 1px solid #292852;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.ltr {
+    direction: ltr;
+}
+
+.rtl {
+    direction: rtl;
+}
+
+ ::-webkit-scrollbar {
+    width: 5px;
+}
+
+ ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+ ::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.loader {
+    background-color: rgb(50, 50, 50);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 9999;
+    margin-top: 0px;
+    top: 0px;
+}
+.loader-centered {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 200px;
+    width: 200px;
+    margin-top: -100px;
+    margin-left: -100px;
+    z-index: 9999;
+}
+.object {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0);
+    margin-right: auto;
+    margin-left: auto;
+    border: 4px solid #fff;
+    left: 73px;
+    top: 73px;
+    position: absolute;
+    z-index: 9999;
+}
+
+.square-one {
+    -webkit-animation: first_object_animate 1s infinite ease-in-out;
+    animation: first_object_animate 1s infinite ease-in-out;
+}
+.square-two {
+    -webkit-animation: second_object 1s forwards, second_object_animate 1s infinite ease-in-out;
+    animation: second_object 1s forwards, second_object_animate 1s infinite ease-in-out;
+}
+.square-three {
+    display: none;
+    -webkit-animation: third_object 1s forwards, third_object_animate 1s infinite ease-in-out;
+    animation: third_object 1s forwards, third_object_animate 1s infinite ease-in-out;
+}
+
+@-webkit-keyframes second_object {
+    100% {
+        width: 100px;
+        height: 100px;
+        left: 48px;
+        top: 48px;
+    }
+}
+@keyframes second_object {
+    100% {
+        width: 100px;
+        height: 100px;
+        left: 48px;
+        top: 48px;
+    }
+}
+@-webkit-keyframes third_object {
+    100% {
+        width: 150px;
+        height: 150px;
+        left: 23px;
+        top: 23px;
+    }
+}
+@keyframes third_object {
+    100% {
+        width: 150px;
+        height: 150px;
+        left: 23px;
+        top: 23px;
+    }
+}
+
+@-webkit-keyframes first_object_animate {
+    0% {
+        -webkit-transform: perspective(100px);
+    }
+    50% {
+        -webkit-transform: perspective(100px) rotateY(-180deg);
+    }
+    100% {
+        -webkit-transform: perspective(100px) rotateY(-180deg) rotateX(-180deg);
+    }
+}
+
+@keyframes first_object_animate {
+    0% {
+        transform: perspective(100px) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: perspective(100px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+        transform: perspective(100px) rotateX(-180deg) rotateY(0deg);
+        -webkit-transform: perspective(100px) rotateX(-180deg) rotateY(0deg);
+    }
+    100% {
+        transform: perspective(100px) rotateX(-180deg) rotateY(-180deg);
+        -webkit-transform: perspective(100px) rotateX(-180deg) rotateY(-180deg);
+    }
+}
+
+@-webkit-keyframes second_object_animate {
+    0% {
+        -webkit-transform: perspective(200px);
+    }
+    50% {
+        -webkit-transform: perspective(200px) rotateY(180deg);
+    }
+    100% {
+        -webkit-transform: perspective(200px) rotateY(180deg) rotateX(180deg);
+    }
+}
+
+@keyframes second_object_animate {
+    0% {
+        transform: perspective(200px) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: perspective(200px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+        transform: perspective(200px) rotateX(180deg) rotateY(0deg);
+        -webkit-transform: perspective(200px) rotateX(180deg) rotateY(0deg);
+    }
+    100% {
+        transform: perspective(200px) rotateX(180deg) rotateY(180deg);
+        -webkit-transform: perspective(200px) rotateX(180deg) rotateY(180deg);
+    }
+}
+
+@-webkit-keyframes third_object_animate {
+    0% {
+        -webkit-transform: perspective(300px);
+    }
+    50% {
+        -webkit-transform: perspective(300px) rotateY(-180deg);
+    }
+    100% {
+        -webkit-transform: perspective(300px) rotateY(-180deg) rotateX(-180deg);
+    }
+}
+
+@keyframes third_object_animate {
+    0% {
+        transform: perspective(300px) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: perspective(300px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+        transform: perspective(300px) rotateX(-180deg) rotateY(0deg);
+        -webkit-transform: perspective(300px) rotateX(-180deg) rotateY(0deg);
+    }
+    100% {
+        transform: perspective(300px) rotateX(-180deg) rotateY(-180deg);
+        -webkit-transform: perspective(300px) rotateX(-180deg) rotateY(-180deg);
+    }
+}
