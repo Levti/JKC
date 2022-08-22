@@ -1187,3 +1187,5 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.reg.showRegions();
   }
 }
+
+//123
