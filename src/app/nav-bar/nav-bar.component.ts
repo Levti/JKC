@@ -119,7 +119,7 @@ export class NavBarComponent implements OnInit {
     this.translate.use(language);
     this.showKi = false; this.showSo = false; this.showPe = false; this.showLo = false;
     $("#Reg").css("color", "#797b81");
-    this.reg.showRegions();
+    //this.reg.showRegions();
   }
 
   closeFilter() {
