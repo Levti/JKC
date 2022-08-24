@@ -13,7 +13,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 
-
 export class RegionsComponent implements OnInit {  
   Regions: boolean = true;
 

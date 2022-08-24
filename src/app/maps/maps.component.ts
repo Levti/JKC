@@ -21,7 +21,7 @@ import { Chart } from 'angular-highcharts';
 import { ScrollToBottomDirective } from './scroolToBottom.directive';
 import { SiteConstructionComponent } from '../site-construction/site-construction.component';
 import { ComputeService } from './compute.service';
-import { RegionsComponent } from './regions/regions.component'
+import { RegionsComponent } from './regions/regions.component';
 
 //Translate range label
 const dutchRangeLabelEn = (page: number, pageSize: number, length: number) => {
@@ -62,6 +62,7 @@ class xy {
   x: number;
   y: number;
 }
+
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',

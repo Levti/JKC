@@ -7,6 +7,7 @@ import { trigger, state, group, animate, transition, style } from '@angular/anim
 import { SearchSService, ShowState } from '../Services/search-s.service';
 import { Subscription } from 'rxjs';
 import { ListsSearch } from '../search/search.model';
+import { RegionsComponent } from './../maps/regions/regions.component';
 
 export const SlideInOutAnimation = [
   trigger('slideInOut', [
@@ -50,6 +51,7 @@ export const SlideInOutAnimation = [
   animations: [SlideInOutAnimation]
 })
 export class NavBarComponent implements OnInit {
+  //@Input() Regions: boolean;
   panelOpenState = false;
   locationOp = true;
   kindOp: boolean;
@@ -62,7 +64,6 @@ export class NavBarComponent implements OnInit {
   partners: boolean;
   map: boolean;
   he: boolean;
-  //browserLang_test:string;
 
   aniLocationVisible: boolean;
   myRef: any;
@@ -81,7 +82,7 @@ export class NavBarComponent implements OnInit {
   sitesB: boolean;
   navDesign: boolean = true;
 
-  constructor(private translate: TranslateService, private s: SearchSService) {
+  constructor(private translate: TranslateService, private s: SearchSService, public reg: RegionsComponent) {
     this.sitesB = true;
     this.filter = s.getSearch();
     s.GetFilterNature().subscribe(x => this.filterNature = x);
@@ -117,6 +118,8 @@ export class NavBarComponent implements OnInit {
     this.he = !this.he;
     this.translate.use(language);
     this.showKi = false; this.showSo = false; this.showPe = false; this.showLo = false;
+    $("#Reg").css("color", "#797b81");
+    this.reg.showRegions();
   }
 
   closeFilter() {
