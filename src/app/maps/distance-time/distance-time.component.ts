@@ -1,7 +1,7 @@
 declare const govmap: any;
 declare const proj4: any;
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SitesService } from 'src/app/Services/sites.service';
 import { ComputeService } from '../compute.service';
@@ -13,7 +13,7 @@ import { ChartType, ChartOptions, ChartXAxe, ChartYAxe, Tooltip } from "chart.js
   templateUrl: './distance-time.component.html',
   styleUrls: ['./distance-time.component.css']
 })
-export class DistanceTimeComponent implements OnInit {
+export class DistanceTimeComponent implements OnInit, OnDestroy {
   newWay: boolean;
   isLoadingWalkindPath: boolean;
   calcWalkingPath: boolean;
@@ -122,6 +122,7 @@ export class DistanceTimeComponent implements OnInit {
     govmap.setMapCursor(govmap.cursorType.DEFAULT);
     this.computes.xySelectionRel.length = 2; this.computes.xySelectionRel[0] = null; this.computes.xySelectionRel[1] = null;
   }
+
   //Draw a point by xySelection:
   DrawPointInWay(x: number, y: number, index: number) {
     this.computes.iWay = index;
@@ -170,6 +171,7 @@ export class DistanceTimeComponent implements OnInit {
     this.computes.xySelection.length += 1;
     this.computes.xySelectionOSRM.length += 1;
     this.computes.xySelectionRel.length += 1;
+    this.computes.xySelectionRel
     console.log(this.computes.xySelectionRel);
     console.log(this.computes.xySelectionRel.length);
     console.log(this.computes.xySelectionRel[length - 1]);
@@ -423,4 +425,9 @@ export class DistanceTimeComponent implements OnInit {
       })
     }
   }
+
+  ngOnDestroy(): void {
+      this.recalculateWalkingPath();
+  }
+
 }
