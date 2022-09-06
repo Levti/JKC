@@ -99,7 +99,7 @@
         "filter": "filter",
         "DeleteEverything": "Display all sites",
         "emptyMap": "Empty map",
-        "timeLine": "timeLine",
+        "timeLine": "Time Line",
         "rPeriod": "period",
         "rType": "type",
         "rSource": "source",
@@ -110,8 +110,8 @@
         "search": "search",
         "he": "he",
         "en": "en",
-        "contacts": "contact us",
-        "map": "map"
+        "contacts": "Contact us",
+        "map": "Map"
     },
     "contact": {
         "talkToUs": "Contact us",
