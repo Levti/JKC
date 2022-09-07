@@ -22,6 +22,8 @@ import { ScrollToBottomDirective } from './scroolToBottom.directive';
 import { SiteConstructionComponent } from '../site-construction/site-construction.component';
 import { ComputeService } from './compute.service';
 import { RegionsComponent } from './regions/regions.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 //Translate range label
 const dutchRangeLabelEn = (page: number, pageSize: number, length: number) => {
@@ -150,7 +152,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   heightAzimut: number = 400;
   constructor(private renderer: Renderer2, private ngZone: NgZone,
     public searchService: SearchSService, private translate: TranslateService, public computes: ComputeService,
-    private siteservice: SitesService, public dialog: MatDialog, public reg: RegionsComponent) {
+    private siteservice: SitesService, public dialog: MatDialog, public reg: RegionsComponent, private _snackBar: MatSnackBar) {
     this.browserLang = this.translate.getDefaultLang();
     if (this.browserLang === 'he') {
       this.he = true;
@@ -497,7 +499,8 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       const symbolArr = new Array(this.SiteDefaultDesign.length);
       //checkes for sites:
       if (this.SiteDefaultDesign.length == 0) {
-        alert('לא נמצאו אתרים התואמים לחיפוש');
+        //alert('לא נמצאו אתרים התואמים לחיפוש');
+        this._snackBar.open(" הכנס נתונים תקינים","OK", {duration:5000, verticalPosition:'top' , panelClass:'snackLength'});
         this.displayLayer(this.getDataObj(
           null,
           null,

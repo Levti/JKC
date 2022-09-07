@@ -86,3 +86,20 @@ app-nav-bar-buttom {
 .cdk-overlay-backdrop{
   backdrop-filter: blur(6px);
 }
+
+.mat-simple-snackbar-action button{
+  padding: 1px !important;
+  color:#e18b3c;
+}
+
+.mat-simple-snackbar{
+  flex-direction: row-reverse;
+}
+
+.snackLength{
+  min-width: 250px !important;
+}
+
+.mat-simple-snackbar-action button{
+  margin-right: 40px !important;
+}

@@ -7,6 +7,8 @@ import { SitesService } from 'src/app/Services/sites.service';
 import { ComputeService } from '../compute.service';
 import { ScrollToBottomDirective } from '../scroolToBottom.directive';
 import { ChartType, ChartOptions, ChartXAxe, ChartYAxe, Tooltip } from "chart.js";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-distance-time',
@@ -29,6 +31,8 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
   chartLabels: any[] = [];
   length_metres: number;
   wkt: any;
+  
+
 
   @ViewChild(ScrollToBottomDirective, { static: false }) scroll: ScrollToBottomDirective;
   lineChartType: ChartType = "line";
@@ -99,7 +103,7 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
   }
 
   constructor(private ngZone: NgZone, private translate: TranslateService, public computes: ComputeService,
-    private siteservice: SitesService, private http: HttpClient) {
+    private siteservice: SitesService, private http: HttpClient, private _snackBar: MatSnackBar) {
     this.browserLang = translate.getDefaultLang();
     if (this.browserLang === 'he') {
       this.he = true;
@@ -211,7 +215,8 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
   howCalc() {
     if (this.selection == undefined) {
       this.translate.get('walkingPath.incorrectWay').subscribe(value => this.incorrectWay = value);
-      alert(this.incorrectWay)
+      //alert(this.incorrectWay)
+      this._snackBar.open(this.incorrectWay,"OK", {duration:5000, verticalPosition:'top' , panelClass:'snackLength'});
     }
     if (this.selection == "1")
       this.calc()
@@ -225,7 +230,8 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
     console.log(this.computes.xySelectionRel);
     if (this.computes.xySelection[0] == null || this.computes.xySelection[1] == null) {
       this.translate.get('walkingPath.incorrectData').subscribe(value => this.incorrectData = value);
-      alert(this.incorrectData)
+      //alert(this.incorrectData)
+      this._snackBar.open(this.incorrectData,"OK", {duration:5000, verticalPosition:'top' , panelClass:'snackLength'});
     }
     else {
       this.calcWalkingPath = true;
@@ -339,8 +345,15 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
     govmap.clearGeometriesByName(['Polyline1', 'Polyline2'])
     // govmap.setMapCursor(govmap.cursorType.DEFAULT)
     if (this.computes.xySelection[0] == null || this.computes.xySelection[1] == null) {
-      alert("אחד או יותר מהנתונים שגויים, אנא בדוק שוב את הנתונים")
+      //alert("אחד או יותר מהנתונים שגויים, אנא בדוק שוב את הנתונים")
+      this._snackBar.open("אחד או יותר מהנתונים שגויים, אנא בדוק שוב את הנתונים","OK", {duration:5000, verticalPosition:'top' , panelClass:'snackLength'});
     }
+
+    else if(this.computes.xySelection[0] == this.computes.xySelection[1]){
+      //alert("אנא בחר נקודות שונות");
+      this._snackBar.open("אנא בחר נקודות שונות","OK", {duration:5000, verticalPosition:'top' , panelClass:'snackLength'});
+    }
+
     else {
       this.calcWalkingPath = true;
       this.newWay = true;

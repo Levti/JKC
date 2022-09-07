@@ -3,6 +3,7 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SitesService } from 'src/app/Services/sites.service';
 import { ComputeService } from '../compute.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-viewshed',
@@ -14,7 +15,7 @@ export class ViewshedComponent implements OnInit {
   reCalc: boolean;
   he: boolean; // err fix
 
-  constructor(private fb: FormBuilder, private ngZone: NgZone, public computes: ComputeService, private siteservice: SitesService) { }
+  constructor(private fb: FormBuilder, private ngZone: NgZone, public computes: ComputeService, private siteservice: SitesService, private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.pointToViewshed();
@@ -91,7 +92,8 @@ export class ViewshedComponent implements OnInit {
       });
     }
     else {
-      alert(" הכנס נתונים תקינים")
+      //alert(" הכנס נתונים תקינים")
+      this._snackBar.open(" הכנס נתונים תקינים","OK", {duration:5000, verticalPosition:'top' , panelClass:'snackLength'});
     }
   }
   //Order to re-calculation viewshed:
