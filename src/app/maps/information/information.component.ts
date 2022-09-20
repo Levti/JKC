@@ -88,6 +88,38 @@ export class InformationComponent implements OnInit {
     from<any>(this.archSite.lstFinding).pipe(distinct((p: lstFinding) => p['findingID']),).subscribe(x => {
       this.lstFinding.push(x);
     });
+
+    //Remove duplicates
+    for(var a=0;a<this.lstFinding.length;a++) {
+      for(var b=a+1;b<this.lstFinding.length;b++) {
+          if(this.lstFinding[a].descriptionHe===this.lstFinding[b].descriptionHe && this.lstFinding[a].periodNameHe===this.lstFinding[b].periodNameHe) {
+            this.lstFinding.splice(b,1);
+          }
+      }
+
+      for(var b=a+1;b<this.lstFinding.length;b++) {
+        if(this.lstFinding[a].descriptionHe===this.lstFinding[b].descriptionHe && this.lstFinding[a].periodNameHe===this.lstFinding[b].periodNameHe) {
+          this.lstFinding.splice(b,1);
+        }
+  
+      }
+    }
+
+    for(var a=0;a<this.lstFinding.length;a++) {
+      for(var b=a+1;b<this.lstFinding.length;b++) {
+          if(this.lstFinding[a].descriptionEn===this.lstFinding[b].descriptionEn && this.lstFinding[a].periodNameEn===this.lstFinding[b].periodNameEn) {
+            this.lstFinding.splice(b,1);
+          }
+      }
+
+      for(var b=a+1;b<this.lstFinding.length;b++) {
+        if(this.lstFinding[a].descriptionEn===this.lstFinding[b].descriptionEn && this.lstFinding[a].periodNameEn===this.lstFinding[b].periodNameEn) {
+          this.lstFinding.splice(b,1);
+        }
+  
+      }
+    }
+
   }
   ngAfterViewInit() {
     //design pictures:
