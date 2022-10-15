@@ -792,14 +792,25 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //Open an information window on a specific site:
   openInformation(e: any, x: any, y: any) {
-    //console.log("-----" + e);
     if(this.changeSiteLocation){
+      if(e == null || e == undefined){
+        console.log("Empty");
+        e.resourceID = "sessionStorage.getItem('e.resourceID');"
+        e.name = sessionStorage.getItem('e.name');
+        e.pointX = sessionStorage.getItem('e.pointX');
+        e.pointY = sessionStorage.getItem('e.pointY');
+        console.log(e.resourceID + " " + e.name + " " + e.pointX + " " + e.pointY);
+      }
+
+      else{  
         sessionStorage.setItem('e.resourceID', e.resourceID);
         sessionStorage.setItem('e.name', e.name);
         sessionStorage.setItem('e.pointX', e.pointX);
         sessionStorage.setItem('e.pointY', e.pointY);
+
         this.theSite = e.resourceID + ", " + e.name;
         this.theLocation = e.pointX + " " + e.pointY;
+
         var n = 0;
         var data = {
           'wkts': ['POINT(' + e.pointX + ' ' + e.pointY + ')'],
@@ -835,7 +846,6 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }, 10);
         })
-
 
           govmap.onEvent(govmap.events.CLICK).progress((e) =>{ 
             govmap.unbindEvent(govmap.events.CLICK);
@@ -878,13 +888,15 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
             })
 
-          govmap.clearGeometriesByName(["selected"]);
+          govmap.clearGeometriesByName(["selected"]);  
+          localStorage.setItem('logSites', Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + e.mapPoint.x.toFixed(0).toString() + " " + e.mapPoint.y.toFixed(0).toString() + ")\n" + localStorage.getItem('logSites'));
           console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0));
       });
 
 
       govmap.clearGeometriesByName([e.resourceID + ", " + e.name]); 
 
+        }
     }
 
     else if(!this.changeSiteLocation){
@@ -1389,6 +1401,10 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
+  }
+
+  logToFile(log: string): void {
+    saveAs(new Blob([log], { type: "text" }), 'Sites.txt');
   }
 
 }

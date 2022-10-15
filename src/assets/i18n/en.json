@@ -167,6 +167,7 @@
         "azimuth": "Azimuth",
         "googleMap": "Google map",
         "Regions" : "Regions",
+        "Location" : "Change location",
         "test":"test"
     }
 }
