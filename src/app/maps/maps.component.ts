@@ -1,3 +1,4 @@
+import { ClickOutsideModule } from 'ng-click-outside';
 declare const govmap: any;
 declare var $: any;
 declare const proj4: any;
@@ -6,7 +7,7 @@ import { SitesService } from '../Services/sites.service';
 import { ArchSiteModel, HazalaRecordModel, Sites } from './arch-site-model';
 import { MatDialog, MatPaginator, MatTableDataSource, MatSort, MatPaginatorIntl } from '@angular/material';
 import { InformationComponent } from './information/information.component';
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone, Renderer2, Input, Inject, PLATFORM_ID, OnDestroy, Output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone, Renderer2, Input, Inject, PLATFORM_ID, OnDestroy, Output, ComponentFactoryResolver } from '@angular/core';
 import { from, Observable, Subscription } from 'rxjs';
 import { SearchSService } from '../Services/search-s.service';
 import { AllSites, csv, Locations, Site } from './classes';
@@ -23,6 +24,8 @@ import { SiteConstructionComponent } from '../site-construction/site-constructio
 import { ComputeService } from './compute.service';
 import { RegionsComponent } from './regions/regions.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Console } from 'console';
+import { saveAs } from 'file-saver'; // Don't forget to import the file-saver
 
 
 //Translate range label
@@ -146,6 +149,13 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   centerY: number;
   centerZoom: number;
   Regions: boolean = true;
+  //languageID: number = 2;
+  changeSiteLocation: boolean = false;
+  theSite: string;
+  theLocation: string;
+  //theID: string;
+  //theName: string;
+  logSites: string;
 
   @ViewChild(ScrollToBottomDirective, { static: false }) scroll: ScrollToBottomDirective;
   isLoadingData: boolean;
@@ -188,6 +198,13 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       {
 
         onLoad: (e) => {
+
+          if(sessionStorage.length > 0){
+            govmap.zoomToXY({ x: parseInt(sessionStorage.getItem('locationX')), y: parseInt(sessionStorage.getItem('locationY')), level: parseInt(sessionStorage.getItem('Zoom'))});
+          }
+          else{
+            govmap.zoomToXY({ x: 222200, y: 631550});
+          }
 
           $(this).delay(5000).queue(function () {
 
@@ -242,7 +259,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
         zoomButtons: true,
         isEmbeddedToggle: false,
         showXY: true, //true
-        center: { x: 222200, y: 631550 }
+        //center: { x: 222200, y: 631550 }
       });
 
 
@@ -287,11 +304,22 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       var widthMapUp = parseInt(((e.extent.xmax - e.extent.xmin)).toFixed(0));
       //console.log("mater: " + widthMapUp);
       //console.log("kilometer: " + widthMapUp / 1000);
+      //console.log(this.centerX + " " + this.centerY);
+
+      //sessionStorage.setItem('locationX', JSON.stringify(this.centerX));
+      //sessionStorage.setItem('locationY', JSON.stringify(this.centerY));
+      this.mapLocation(this.centerX, this.centerY);
+      //console.log(parseInt(sessionStorage.getItem('Zoom')));
+      //console.log(widthMapUp + " x min: " + e.extent.xmin.toFixed(2) + " y min: " + e.extent.ymin.toFixed(2));
 
       this.centerX = (e.extent.xmin + e.extent.xmax) / 2;
       this.centerY = (e.extent.ymin + e.extent.ymax) / 2;
       //this.urlMap = "https://www.google.co.il/maps/@" + this.computes.computeITMToLatLng(this.centerX,this.centerY)[0] + "," + this.computes.computeITMToLatLng(this.centerX,this.centerY)[1] + ",13z";
       this.urlMap = 'https://www.google.co.il/maps/@' + this.computes.computeITMToLatLng(this.centerX, this.centerY)[0] + ',' + this.computes.computeITMToLatLng(this.centerX, this.centerY)[1] + ',' + this.centerZoom + 'z';
+
+      if (widthMapUp <= 1000) {
+        //this.levelZoom = 10;
+      }
 
       if (widthMapUp <= 2000) {
         this.meterS = true;
@@ -300,7 +328,10 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ten = window.innerWidth / a;
         this.scaleMeter = 10;
         this.centerZoom = 17;
+        //sessionStorage.setItem('Zoom', JSON.stringify(9));
+        this.mapZoom(9);
       }
+
       if (widthMapUp > 2000 && widthMapUp <= 10000) {
         this.meterS = true;
         this.kiloMeterS = false;
@@ -308,14 +339,20 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ten = window.innerWidth / a;
         this.scaleMeter = 100;
         this.centerZoom = 16;
+        //sessionStorage.setItem('Zoom', JSON.stringify(8));
+        this.mapZoom(8);
       }
 
       if (widthMapUp > 10000 && widthMapUp <= 20000) {
         this.centerZoom = 15;
+        //sessionStorage.setItem('Zoom', JSON.stringify(7));
+        this.mapZoom(7);
       }
 
       if (widthMapUp > 20000 && widthMapUp <= 50000) {
         this.centerZoom = 12;
+        //sessionStorage.setItem('Zoom', JSON.stringify(5));
+        this.mapZoom(5);
       }
 
       if (widthMapUp > 10000 && widthMapUp <= 100000) {
@@ -324,6 +361,8 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
         var a = widthMapUp / 1000;
         this.ten = window.innerWidth / a;
         this.scaleMeter = 1
+        //sessionStorage.setItem('Zoom', JSON.stringify(4));
+        this.mapZoom(4);
       }
 
       if (widthMapUp > 100000) {
@@ -333,6 +372,8 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ten = window.innerWidth / a;
         this.scaleMeter = 10;
         this.centerZoom = 11;
+        //sessionStorage.setItem('Zoom', JSON.stringify(3));
+        this.mapZoom(3);
       }
 
       this.xmin = e.extent.xmin;
@@ -446,8 +487,12 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       from<any>(data.sitesArchiology).pipe(distinct((p: Site) => p['resourceID']),).subscribe(x => {
         if (x.pointX != 0 || x.pointY != 0) {
           this.SiteDefaultDesign.push(x);
+          //console.log(x.languageID + " | " + x.resourceID + " | " + x.name);
+          //debugger;
+          //console.log(x);
         }
       });
+      //console.log("----- " + data.sitesArchiology);
       console.log(this.SiteDefaultDesign);
       ///receives sites in hebrew:
       this.SiteDefaultHeb = data.sitesArchiology.filter(x => x.languageID === 1);
@@ -455,8 +500,9 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       from<any>(this.SiteDefaultDesign).pipe(distinct((p: Site) => p['resourceID']),).subscribe(x => {
         if (x.pointX != 0 || x.pointY != 0) {
           this.SiteDefaultDesignHeb.push(x);
-          //console.log('this is HE');
+          //console.log('------------------this is HE' + ' ' + x.languageID + ' ');
         }
+
       });
       //receives sites in english:
       this.SiteDefaultEng = data.sitesArchiology.filter(x => x.languageID === 2);
@@ -464,9 +510,20 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       from<any>(this.SiteDefaultDesign).pipe(distinct((p: Site) => p['resourceID']),).subscribe(x => {
         if (x.pointX != 0 || x.pointY != 0) {
           this.SiteDefaultDesignEng.push(x);
-          //console.log('this is EN');
+          //console.log();
+          //console.log('------------------this is EN');
+          //console.log(x.languageID);
         }
       });
+      
+      for(var z=0; z<2000; z++){
+        //console.log(this.SiteDefaultDesign[z].name);
+        //console.log(data.sitesArchiology[z]);
+        //console.log("---" + this.AllSites$[z]);
+        //console.log(this.languageID);
+      }
+
+
       ///inserting sites in hebrew if there is no English (by resourceID):
       for (let index = 0; index < this.SiteDefaultDesign.length; index++) {
         let exists = false;
@@ -541,10 +598,23 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
             symbolArr[index] = ({
               outlineColor: [40, 41, 82, 1],
               outlineWidth: 0.1, //3
+              fillColor: [40, 41, 82, 1],
+              /*url: 'http://maps.google.com/mapfiles/ms/micons/horsebackriding.png',
+              width: 15,
+              height: 15*/
+              //bubbleHTML: "<div style='border: 1px solid red; margin: 10px;padding: 10px;'><div style='background-color: yellow;'>{0}</div><div               style='background-color: blue;'>{1}</div></div>"
+
+              /*
+                          symbolArr[index] = ({
+              outlineColor: [40, 41, 82, 1],
+              outlineWidth: 0.1, //3
               fillColor: [40, 41, 82, 1]
               /*url: 'http://maps.google.com/mapfiles/ms/micons/horsebackriding.png',
               width: 15,
               height: 15*/
+
+
+
             });
           }
         }
@@ -719,9 +789,145 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     return data;
   }
+
   //Open an information window on a specific site:
   openInformation(e: any, x: any, y: any) {
-    this.computes.openInformation(e, x, y);
+    //console.log("-----" + e);
+    if(this.changeSiteLocation){
+      if(e == null || e == undefined){
+        console.log("Empty");
+        e.resourceID = "sessionStorage.getItem('e.resourceID');"
+        e.name = sessionStorage.getItem('e.name');
+        e.pointX = sessionStorage.getItem('e.pointX');
+        e.pointY = sessionStorage.getItem('e.pointY');
+        console.log(e.resourceID + " " + e.name + " " + e.pointX + " " + e.pointY);
+      }
+
+      else{  
+        sessionStorage.setItem('e.resourceID', e.resourceID);
+        sessionStorage.setItem('e.name', e.name);
+        sessionStorage.setItem('e.pointX', e.pointX);
+        sessionStorage.setItem('e.pointY', e.pointY);
+        //govmap.setMapCursor(govmap.cursorType.TARGET);
+        this.theSite = e.resourceID + ", " + e.name;
+        this.theLocation = e.pointX + " " + e.pointY;
+        //this.theID = e.resourceID;
+        //this.theName = e.name;
+        //var rID = e.resourceID;
+        var n = 0;
+        var data = {
+          'wkts': ['POINT(' + e.pointX + ' ' + e.pointY + ')'],
+          'geomData': { a: false },
+          'showBubble': false,
+          'names': ['selected'],
+          'geometryType': govmap.drawType.Point,
+          'defaultSymbol':
+          {
+            outlineColor: [11, 181, 0, 1],
+            outlineWidth: 1,
+            fillColor: [11, 181, 0, 1]
+          },
+          'symbols': [],
+          'clearExisting': false,
+          'data': {
+            'headers': [''],
+            'bubbles': [''],
+          }
+        }
+
+        var res_list = [];
+        govmap.displayGeometries(data).progress((res) => {
+          console.log(res);
+          res_list.push(res);
+          this.searchService.hide();
+          setTimeout(() => {
+            if (res_list[0]) {
+              this.ngZone.run(() => {
+                this.openInformation(res.data.geomData, res.data.x, res.data.y);
+              });
+              res_list = [];
+            }
+          }, 10);
+        })
+
+          //govmap.setMapCursor(govmap.cursorType.TARGET);  
+
+          govmap.onEvent(govmap.events.CLICK).progress((e) =>{ 
+            govmap.unbindEvent(govmap.events.CLICK);
+            //console.log("After: " + e.resourceID + " " + e.name);
+            //e.resourceID = this.theID;
+            //e.name = this.theName;
+            //console.log("A: " + e.resourceID + " " + e.name);
+            n++;
+            var data = {
+              'wkts': ['POINT(' + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0) + ')'],
+              'geomData': { a: false },
+              'showBubble': false,
+              'names': [n],
+              'geometryType': govmap.drawType.Point,
+              'defaultSymbol':
+              {
+                outlineColor: [40, 41, 82, 1],
+                outlineWidth: 1,
+                fillColor: [40, 41, 82, 1]
+              },
+              'symbols': [],
+              'clearExisting': false,
+              'data': {
+                'headers': [e.resourceID + ", " + e.name],
+                'bubbles': [e.resourceID + ", " + e.name],
+                'tooltips': [this.theSite]
+              }
+            }
+        
+            var res_list = [];
+            govmap.displayGeometries(data).progress((res) => {
+              console.log(res);
+              res_list.push(res);
+              this.searchService.hide();
+              setTimeout(() => {
+                if (res_list[0]) {
+                  this.ngZone.run(() => {
+                    this.openInformation(res.data.geomData, res.data.x, res.data.y);
+                  });
+                  res_list = [];
+                }
+              }, 10);
+
+
+            })
+
+          //govmap.displayGeometries(siteMove);
+          //e.resourceID = rID;
+          //console.log(e.resourceID);
+          govmap.clearGeometriesByName(["selected"]);
+          //console.log("A0000: " + e.resourceID + " " + e.name);
+          //console.log("After: " + this.SiteDefaultDesignHeb.length);
+          //debugger;
+          //console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0));
+          //this.logToFile(Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + e.mapPoint.x.toFixed(0).toString() + " " + e.mapPoint.y.toFixed(0).toString() + ")");
+          
+          localStorage.setItem('logSites', Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + e.mapPoint.x.toFixed(0).toString() + " " + e.mapPoint.y.toFixed(0).toString() + ")\n" + localStorage.getItem('logSites'));
+          console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0));
+      });
+
+
+      govmap.clearGeometriesByName([e.resourceID + ", " + e.name]); 
+
+      //console.log("A0000000303030303000: " + this.theName + " " + this.theID);
+
+
+        //govmap.clearGeometriesByName([e.resourceID + ", " + e.name]); // clear
+
+        }
+    }
+
+    else if(!this.changeSiteLocation){
+      //govmap.unbindEvent(govmap.events.CLICK);
+      this.computes.openInformation(e, x, y);
+    }
+
+
   }
   wkts = [];
   //opening a measure tool:
@@ -1190,5 +1396,40 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   openRegions(){
     this.reg.showRegions();
   }
-}
 
+
+  //Remeber last location
+
+  mapZoom(zoom: number){
+    sessionStorage.setItem('Zoom', JSON.stringify(zoom));
+  }
+
+  mapLocation(x: number, y:number){
+    sessionStorage.setItem('locationX', JSON.stringify(x));
+    sessionStorage.setItem('locationY', JSON.stringify(y));
+  }
+
+
+
+
+  changeLocation(e: any) {
+    if(!this.changeSiteLocation){
+      this.changeSiteLocation = true;
+      $("#Loc").css("color", "#0bb500");
+      //govmap.clearGeometriesByName(["selected"])
+    }
+
+    else if(this.changeSiteLocation){
+      this.changeSiteLocation = false;
+      $("#Loc").css("color", "#797b81");
+    }
+
+
+  }
+
+
+  logToFile(log: string): void {
+    saveAs(new Blob([log], { type: "text" }), 'Sites.txt');
+  }
+
+}
