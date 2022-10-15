@@ -794,26 +794,12 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   openInformation(e: any, x: any, y: any) {
     //console.log("-----" + e);
     if(this.changeSiteLocation){
-      if(e == null || e == undefined){
-        console.log("Empty");
-        e.resourceID = "sessionStorage.getItem('e.resourceID');"
-        e.name = sessionStorage.getItem('e.name');
-        e.pointX = sessionStorage.getItem('e.pointX');
-        e.pointY = sessionStorage.getItem('e.pointY');
-        console.log(e.resourceID + " " + e.name + " " + e.pointX + " " + e.pointY);
-      }
-
-      else{  
         sessionStorage.setItem('e.resourceID', e.resourceID);
         sessionStorage.setItem('e.name', e.name);
         sessionStorage.setItem('e.pointX', e.pointX);
         sessionStorage.setItem('e.pointY', e.pointY);
-        //govmap.setMapCursor(govmap.cursorType.TARGET);
         this.theSite = e.resourceID + ", " + e.name;
         this.theLocation = e.pointX + " " + e.pointY;
-        //this.theID = e.resourceID;
-        //this.theName = e.name;
-        //var rID = e.resourceID;
         var n = 0;
         var data = {
           'wkts': ['POINT(' + e.pointX + ' ' + e.pointY + ')'],
@@ -850,14 +836,9 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           }, 10);
         })
 
-          //govmap.setMapCursor(govmap.cursorType.TARGET);  
 
           govmap.onEvent(govmap.events.CLICK).progress((e) =>{ 
             govmap.unbindEvent(govmap.events.CLICK);
-            //console.log("After: " + e.resourceID + " " + e.name);
-            //e.resourceID = this.theID;
-            //e.name = this.theName;
-            //console.log("A: " + e.resourceID + " " + e.name);
             n++;
             var data = {
               'wkts': ['POINT(' + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0) + ')'],
@@ -897,33 +878,16 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
             })
 
-          //govmap.displayGeometries(siteMove);
-          //e.resourceID = rID;
-          //console.log(e.resourceID);
           govmap.clearGeometriesByName(["selected"]);
-          //console.log("A0000: " + e.resourceID + " " + e.name);
-          //console.log("After: " + this.SiteDefaultDesignHeb.length);
-          //debugger;
-          //console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0));
-          //this.logToFile(Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + e.mapPoint.x.toFixed(0).toString() + " " + e.mapPoint.y.toFixed(0).toString() + ")");
-          
-          localStorage.setItem('logSites', Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + e.mapPoint.x.toFixed(0).toString() + " " + e.mapPoint.y.toFixed(0).toString() + ")\n" + localStorage.getItem('logSites'));
           console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0));
       });
 
 
       govmap.clearGeometriesByName([e.resourceID + ", " + e.name]); 
 
-      //console.log("A0000000303030303000: " + this.theName + " " + this.theID);
-
-
-        //govmap.clearGeometriesByName([e.resourceID + ", " + e.name]); // clear
-
-        }
     }
 
     else if(!this.changeSiteLocation){
-      //govmap.unbindEvent(govmap.events.CLICK);
       this.computes.openInformation(e, x, y);
     }
 
@@ -1425,11 +1389,6 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
-  }
-
-
-  logToFile(log: string): void {
-    saveAs(new Blob([log], { type: "text" }), 'Sites.txt');
   }
 
 }

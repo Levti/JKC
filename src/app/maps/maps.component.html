@@ -15,7 +15,11 @@
     </div>
     <div [hidden]="!listOfSites" class="info" (click)="action()">
         <mat-card *ngFor="let data of archobs | async" [ngClass]="{'archiology':data.siteDef=='ארכיאולוגי', 'history':data.siteDef=='היסטורי'}" (click)="openInformation(data, data.pointX, data.pointY)" style="padding: 5px; cursor: pointer; line-height: normal; height: 128px; margin-bottom: 10px; box-shadow: none;">
-            <mat-card-content>
+
+          <!--<mat-card *ngFor="let data of archobs | async" [ngClass]="{'archiology':data.siteDef=='ארכיאולוגי', 'history':data.siteDef=='היסטורי'}" (click)="true ? test2() : test1()" style="padding: 5px; cursor: pointer; line-height: normal; height: 128px; margin-bottom: 10px; box-shadow: none;">-->
+        <!--<mat-card *ngFor="let data of archobs | async" [ngClass]="{'archiology':data.siteDef=='ארכיאולוגי', 'history':data.siteDef=='היסטורי'}" (click)="openInformation(data, data.pointX, data.pointY)" style="padding: 5px; cursor: pointer; line-height: normal; height: 128px; margin-bottom: 10px; box-shadow: none;">-->
+
+          <mat-card-content>
                 <img class="pic" src="assets/picture/Logo.jpg.png" alt="">
                 <div style="float: left" class="nam">
                     <label style="font-family: Rubik; font-style: normal; font-weight: normal;
@@ -65,10 +69,12 @@
     <button matTooltip="{{'Tooltips.azimuth'|translate}}" *ngIf="!listOfSites" [ngClass]="{'disAndTimeHeb':he, 'disAndTimeEng':!he}" class="bbtn btnAzimuth" (click)="openAzimuth()"><img src="assets/picture/caliper.jpg" alt=""></button>
     <a matTooltip="{{'Tooltips.googleMap'|translate}}" *ngIf="listOfSites" [ngClass]="{'googleMapHe':he, 'disandtimepe':!he}" class="bbtn googleMap" target="_blank" href="{{urlMap}}"><img src="assets/picture/googleMap.png"></a>
     <a matTooltip="{{'Tooltips.googleMap'|translate}}" *ngIf="!listOfSites" [ngClass]="{'googleMapHe':he, 'googleMapEng':!he}" class="bbtn googleMap" target="_blank" href="{{urlMap}}"><img src="assets/picture/googleMap.png"></a>
-
     <!--<app-regions></app-regions>-->
     <button matTooltip="{{'Tooltips.Regions'|translate}}" *ngIf="listOfSites" [ngClass]="{'measureph':he, 'measurepe':!he }" class="bbtn Regions" (click)="openRegions()" alt="Measure"><mat-icon id = "Reg">view_module</mat-icon></button>
     <button matTooltip="{{'Tooltips.Regions'|translate}}" *ngIf="!listOfSites" [ngClass]="{'measureph':he, 'measurepeEN':!he }" class="bbtn Regions" (click)="openRegions()" alt="Measure"><mat-icon id = "Reg">view_module</mat-icon></button>
+
+    <button matTooltip="{{'Tooltips.Location'|translate}}" *ngIf="listOfSites" [ngClass]="{'measureph':he, 'measurepe':!he }" class="bbtn changeLocation" (click)="changeLocation()" alt="Measure"><mat-icon id = "Loc">location_on</mat-icon></button>
+    <button matTooltip="{{'Tooltips.Location'|translate}}" *ngIf="!listOfSites" [ngClass]="{'measureph':he, 'measurepeEN':!he }" class="bbtn changeLocation" (click)="changeLocation()" alt="Measure"><mat-icon id = "Loc">location_on</mat-icon></button>
 
     <!-- <a href="{{urlMap}}" (click)="" class="bbtn googleMap"><img src="assets/picture/googleMap.png" alt=""></a> -->
     <!-- [ngClass]="'currentTheme' | translate" -->
