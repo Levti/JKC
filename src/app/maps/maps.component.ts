@@ -156,6 +156,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   //theID: string;
   //theName: string;
   logSites: string;
+  moveSite: number = 0;
 
   @ViewChild(ScrollToBottomDirective, { static: false }) scroll: ScrollToBottomDirective;
   isLoadingData: boolean;
@@ -793,25 +794,12 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   //Open an information window on a specific site:
   openInformation(e: any, x: any, y: any) {
     if(this.changeSiteLocation){
-      if(e == null || e == undefined){
-        console.log("Empty");
-        e.resourceID = "sessionStorage.getItem('e.resourceID');"
-        e.name = sessionStorage.getItem('e.name');
-        e.pointX = sessionStorage.getItem('e.pointX');
-        e.pointY = sessionStorage.getItem('e.pointY');
-        console.log(e.resourceID + " " + e.name + " " + e.pointX + " " + e.pointY);
-      }
-
-      else{  
         sessionStorage.setItem('e.resourceID', e.resourceID);
         sessionStorage.setItem('e.name', e.name);
         sessionStorage.setItem('e.pointX', e.pointX);
         sessionStorage.setItem('e.pointY', e.pointY);
-
         this.theSite = e.resourceID + ", " + e.name;
         this.theLocation = e.pointX + " " + e.pointY;
-
-        var n = 0;
         var data = {
           'wkts': ['POINT(' + e.pointX + ' ' + e.pointY + ')'],
           'geomData': { a: false },
@@ -849,12 +837,14 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
           govmap.onEvent(govmap.events.CLICK).progress((e) =>{ 
             govmap.unbindEvent(govmap.events.CLICK);
-            n++;
+            sessionStorage.setItem('LocX', e.mapPoint.x.toFixed(0));
+            sessionStorage.setItem('LocY', e.mapPoint.y.toFixed(0));
+            this.moveSite++;
             var data = {
               'wkts': ['POINT(' + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0) + ')'],
               'geomData': { a: false },
               'showBubble': false,
-              'names': [n],
+              'names': ["moved" + this.moveSite],
               'geometryType': govmap.drawType.Point,
               'defaultSymbol':
               {
@@ -885,24 +875,19 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
               }, 10);
 
-
             })
 
-          govmap.clearGeometriesByName(["selected"]);  
+          govmap.clearGeometriesByName(["selected"]);   
           localStorage.setItem('logSites', Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + e.mapPoint.x.toFixed(0).toString() + " " + e.mapPoint.y.toFixed(0).toString() + ")\n" + localStorage.getItem('logSites'));
           console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0));
       });
-
-
       govmap.clearGeometriesByName([e.resourceID + ", " + e.name]); 
-
-        }
     }
 
     else if(!this.changeSiteLocation){
+      //govmap.setMapCursor(govmap.cursorType.DEFAULT);
       this.computes.openInformation(e, x, y);
     }
-
 
   }
   wkts = [];
@@ -1390,21 +1375,16 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   changeLocation(e: any) {
     if(!this.changeSiteLocation){
+      this._snackBar.open("נא לבצע הזזות באתר יחיד בלבד ולאחר מכן לעבור להבא","OK", {horizontalPosition:'center', verticalPosition:'top', panelClass:'snackLengthMove'});
+      //govmap.setMapCursor(govmap.cursorType.TARGET);
       this.changeSiteLocation = true;
       $("#Loc").css("color", "#0bb500");
-      //govmap.clearGeometriesByName(["selected"])
     }
 
     else if(this.changeSiteLocation){
+      //govmap.setMapCursor(govmap.cursorType.DEFAULT);
       this.changeSiteLocation = false;
       $("#Loc").css("color", "#797b81");
     }
-
-
   }
-
-  logToFile(log: string): void {
-    saveAs(new Blob([log], { type: "text" }), 'Sites.txt');
-  }
-
 }
