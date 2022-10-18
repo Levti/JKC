@@ -333,6 +333,10 @@ mat-form-field {
   margin-top: 300px;
 }
 
+.changeLocation{
+  margin-top: 336px;
+}
+
 .btnRectangle {
     margin-top: 150px;
 }
@@ -363,7 +367,7 @@ mat-form-field {
 }
 
 .expandBEN {
-    margin-top: 310px;
+    margin-top: 350px; /* 310px */
     left: -140px;
 }
 

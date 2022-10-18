@@ -794,6 +794,96 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   //Open an information window on a specific site:
   openInformation(e: any, x: any, y: any) {
     if(this.changeSiteLocation){
+      if(e == null || e == undefined){
+        this.theSite = sessionStorage.getItem('e.resourceID') + ", " + sessionStorage.getItem('e.name');
+        this.theLocation = sessionStorage.getItem('e.pointX') + " " + sessionStorage.getItem('e.pointY');
+        var data = {
+          'wkts': ['POINT(' + parseInt(sessionStorage.getItem('LocX')) + " " + parseInt(sessionStorage.getItem('LocY')) + ')'],
+          'geomData': { a: false },
+          'showBubble': false,
+          'names': ['selected'],
+          'geometryType': govmap.drawType.Point,
+          'defaultSymbol':
+          {
+            outlineColor: [11, 181, 0, 1],
+            outlineWidth: 1,
+            fillColor: [11, 181, 0, 1]
+          },
+          'symbols': [],
+          'clearExisting': false,
+          'data': {
+            'headers': [''],
+            'bubbles': [''],
+          }
+        }
+
+        var res_list = [];
+        govmap.displayGeometries(data).progress((res) => {
+          console.log(res);
+          res_list.push(res);
+          this.searchService.hide();
+          setTimeout(() => {
+            if (res_list[0]) {
+              this.ngZone.run(() => {
+                this.openInformation(res.data.geomData, res.data.x, res.data.y);
+              });
+              res_list = [];
+            }
+          }, 10);
+        })
+
+          govmap.onEvent(govmap.events.CLICK).progress((e) =>{ 
+            govmap.unbindEvent(govmap.events.CLICK);
+            sessionStorage.setItem('LocX', e.mapPoint.x.toFixed(0));
+            sessionStorage.setItem('LocY', e.mapPoint.y.toFixed(0));
+            this.moveSite++;
+            var data = {
+              'wkts': ['POINT(' + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0) + ')'],
+              'geomData': { a: false },
+              'showBubble': false,
+              'names': ["e.moved" + this.moveSite],
+              'geometryType': govmap.drawType.Point,
+              'defaultSymbol':
+              {
+                outlineColor: [40, 41, 82, 1],
+                outlineWidth: 1,
+                fillColor: [40, 41, 82, 1]
+              },
+              'symbols': [],
+              'clearExisting': false,
+              'data': {
+                'headers': [sessionStorage.getItem('e.resourceID') + ", " + sessionStorage.getItem('e.name')],
+                'bubbles': [sessionStorage.getItem('e.resourceID') + ", " + sessionStorage.getItem('e.name')],
+                'tooltips': [this.theSite]
+              }
+            }
+        
+            var res_list = [];
+            govmap.displayGeometries(data).progress((res) => {
+              console.log(res);
+              res_list.push(res);
+              this.searchService.hide();
+              setTimeout(() => {
+                if (res_list[0]) {
+                  this.ngZone.run(() => {
+                    this.openInformation(res.data.geomData, res.data.x, res.data.y);
+                  });
+                  res_list = [];
+                }
+              }, 10);
+            })
+
+          this.moveSite--;
+          govmap.clearGeometriesByName(['selected']);
+          govmap.clearGeometriesByName(["e.moved" + this.moveSite]);
+          govmap.clearGeometriesByName(["moved" + this.moveSite]);
+          this.moveSite++;
+          localStorage.setItem('logSites', Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + e.mapPoint.x.toFixed(0).toString() + " " + e.mapPoint.y.toFixed(0).toString() + ")\n" + localStorage.getItem('logSites'));
+          console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0));
+      });
+      }
+
+      else{
         sessionStorage.setItem('e.resourceID', e.resourceID);
         sessionStorage.setItem('e.name', e.name);
         sessionStorage.setItem('e.pointX', e.pointX);
@@ -882,6 +972,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + e.mapPoint.x.toFixed(0) + " " + e.mapPoint.y.toFixed(0));
       });
       govmap.clearGeometriesByName([e.resourceID + ", " + e.name]); 
+      }
     }
 
     else if(!this.changeSiteLocation){
