@@ -3,11 +3,13 @@
     <mat-toolbar-row style="padding: 0px;">
         <button class="btnTrans" *ngIf="he" (click)="useLanguage('he')" style="font-family: Arimo; cursor: pointer;">HE</button>
         <button class="btnTrans" *ngIf="!he" (click)="useLanguage('en')" style="font-family: Arimo; cursor: pointer;">EN</button>
+        <!--<a class="a flex-item-b" (click)="saveAsExcelFile()" [ngClass]="{'butin':!conta, 'buttout':conta}" routerLink="Contact">{{'nav.logs'|translate}}</a>-->
         <a class="a flex-item-b" (click)="contact()" [ngClass]="{'butin':!conta, 'buttout':conta}" routerLink="Contact">{{'nav.contacts'|translate}}</a>
         <a class="a flex-item-a" (click)="partnersF()" routerLink="Partners" mat-menu-item [ngClass]="{'butin':!partners, 'buttout':partners}">{{'information.partners'|translate}}</a>
         <a class="a flex-item-a" (click)="AboutUs()" routerLink="AboutUs" mat-menu-item [ngClass]="{'butin':!aboutUs, 'buttout':aboutUs}">{{'information.aboutUs'|translate}}</a>
         <a class="a flex-item-a" (click)="TheCenterF()" routerLink="TheCenter" mat-menu-item [ngClass]="{'butin':!theCenter, 'buttout':theCenter}">{{'information.theCenter'|translate}}</a>
-        <a class="a flex-item-c" (click)="mapF()" [ngClass]="{'butin':!map, 'buttout':map}" href=""> {{'nav.map'|translate}}</a>
+        <!--<a class="a flex-item-c" (click)="mapF()" [ngClass]="{'butin':!map, 'buttout':map}" href=""> {{'nav.map'|translate}}</a>-->
+        <a class="a flex-item-c" (click)="mapF()" [ngClass]="{'butin':!map, 'buttout':map}" href="https://jkc.biu.ac.il/Dev/"> {{'nav.map'|translate}}</a>
         <span class="spacer"></span>
 
         <button *ngIf="navDesign" class="butt item-d" mat-button [ngClass]="{'butin':showSo == false, 'buttout':showSo == true}" (click)="openSource()">

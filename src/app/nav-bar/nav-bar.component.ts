@@ -1,3 +1,5 @@
+declare const govmap: any;
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { AzimuthComponent } from './../maps/azimuth/azimuth.component';
 import { ComputeService } from './../maps/compute.service';
@@ -8,6 +10,8 @@ import { SearchSService, ShowState } from '../Services/search-s.service';
 import { Subscription } from 'rxjs';
 import { ListsSearch } from '../search/search.model';
 import { RegionsComponent } from './../maps/regions/regions.component';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 export const SlideInOutAnimation = [
   trigger('slideInOut', [
@@ -67,6 +71,7 @@ export class NavBarComponent implements OnInit {
 
   aniLocationVisible: boolean;
   myRef: any;
+  fileName= 'Sites.xlsx'; 
 
   showLo = false;
   showKi = false;
@@ -245,7 +250,9 @@ export class NavBarComponent implements OnInit {
     this.showSo = false; this.showKi = false; this.showPe = false; this.showLo = false; this.map = true;
     this.conta = false;
     this.aboutUs = false; this.partners = false; this.theCenter = false;
+    
   }
+
   ngOnDestroy() {
     if (this.subscription)
       this.subscription.unsubscribe();

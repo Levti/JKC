@@ -111,7 +111,8 @@
         "he": "he",
         "en": "en",
         "contacts": "Contact us",
-        "map": "Map"
+        "map": "Map",
+        "logs": "Logs"
     },
     "contact": {
         "talkToUs": "Contact us",
