@@ -83,9 +83,9 @@ app-nav-bar-buttom {
     text-align: right !important;
 }
 
-.cdk-overlay-backdrop{
+/*.cdk-overlay-backdrop{
   backdrop-filter: blur(6px);
-}
+}*/
 
 .mat-simple-snackbar-action button{
   padding: 1px !important;
@@ -99,6 +99,19 @@ app-nav-bar-buttom {
 .snackLength{
   min-width: 250px !important;
 }
+
+
+.snackLengthMove{
+  transform: scale(1.2) !important;
+  min-width: 480px !important;
+}
+
+
+.snackLengthMove .mat-simple-snackbar{
+  min-width: 250px !important;
+  font-weight: 600 !important;
+}
+
 
 .mat-simple-snackbar-action button{
   margin-right: 40px !important;

@@ -16,7 +16,7 @@ import { distinct, last } from 'rxjs/operators';
 import { ListsSearch } from '../search/search.model';
 import { InformationHistoryComponent } from './information-history/information-history.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders , HttpErrorResponse } from '@angular/common/http';
 import { ChartType, ChartOptions, ChartXAxe, ChartYAxe, Tooltip } from 'chart.js';
 import { Chart } from 'angular-highcharts';
 import { ScrollToBottomDirective } from './scroolToBottom.directive';
@@ -153,19 +153,24 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   changeSiteLocation: boolean = false;
   theSite: string;
   theLocation: string;
-  //theID: string;
-  //theName: string;
   logSites: string;
+  finalLog: string;
   moveSite: number = 0;
   moveBack: number = 0;
   disableUndo: boolean = true;
+  relocations: number = 1;
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json; charset=utf-8'
+    })
+  };
 
   @ViewChild(ScrollToBottomDirective, { static: false }) scroll: ScrollToBottomDirective;
   isLoadingData: boolean;
   heightAzimut: number = 400;
   constructor(private renderer: Renderer2, private ngZone: NgZone,
     public searchService: SearchSService, private translate: TranslateService, public computes: ComputeService,
-    private siteservice: SitesService, public dialog: MatDialog, public reg: RegionsComponent, private _snackBar: MatSnackBar) {
+    private siteservice: SitesService, public dialog: MatDialog, public reg: RegionsComponent, private _snackBar: MatSnackBar, private http: HttpClient) {
     this.browserLang = this.translate.getDefaultLang();
     if (this.browserLang === 'he') {
       this.he = true;
@@ -877,14 +882,16 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
           this.disableUndo = false;
           govmap.clearGeometriesByName(["selected" + this.moveBack]);
-          this.moveSite--; this.moveBack++;
+          this.moveSite--; this.moveBack++; this.relocations++;
           govmap.clearGeometriesByName(['selected']);
           govmap.clearGeometriesByName(["e.moved" + this.moveSite]);
           govmap.clearGeometriesByName(["selected" + this.moveBack]); 
           govmap.clearGeometriesByName(["moved" + this.moveSite]);
           this.moveSite++;
-          localStorage.setItem('logSites', Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")\n" + localStorage.getItem('logSites'));
-          console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + n.mapPoint.x.toFixed(0) + " " + n.mapPoint.y.toFixed(0));
+          //localStorage.setItem('logSites', Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")\n" + localStorage.getItem('logSites'));
+          //this.finalLog = Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
+          this.finalLog = "The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
+          //console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + n.mapPoint.x.toFixed(0) + " " + n.mapPoint.y.toFixed(0));
       });
       }
 
@@ -978,8 +985,10 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.moveBack++;
           govmap.clearGeometriesByName(["selected"]);
           govmap.clearGeometriesByName(["selected" + this.moveBack]); 
-          localStorage.setItem('logSites', Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")\n" + localStorage.getItem('logSites'));
-          console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + n.mapPoint.x.toFixed(0) + " " + n.mapPoint.y.toFixed(0));
+          //localStorage.setItem('logSites', Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")\n" + localStorage.getItem('logSites'));
+          //this.finalLog = Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
+          this.finalLog = "The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
+          //console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + n.mapPoint.x.toFixed(0) + " " + n.mapPoint.y.toFixed(0));
       });
       }
     }
@@ -1485,4 +1494,57 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       $("#Loc").css("color", "#797b81");
     }
   }
+
+  undoMove(){
+    this.disableUndo = true;
+    //govmap.clearGeometriesByName(['selected']);
+    sessionStorage.setItem('LocX', sessionStorage.getItem('e.pointX'));
+    sessionStorage.setItem('LocY', sessionStorage.getItem('e.pointY'));
+
+    //govmap.onEvent(govmap.events.CLICK).progress((n) =>{ 
+    //  govmap.unbindEvent(govmap.events.CLICK);
+      //sessionStorage.setItem('LocX', sessionStorage.getItem('e.pointX'));
+      //sessionStorage.setItem('LocY', sessionStorage.getItem('e.pointY'));
+    //});
+    govmap.unbindEvent(govmap.events.CLICK);
+    govmap.clearGeometriesByName(["e.moved" + this.moveSite]);
+    govmap.clearGeometriesByName(["moved" + this.moveSite]);
+    this.moveBack++;
+    var data = {
+      'wkts': ['POINT(' + parseInt(sessionStorage.getItem('e.pointX')) + " " + parseInt(sessionStorage.getItem('e.pointY')) + ')'],
+      'geomData': { a: false },
+      'showBubble': false,
+      'names': ['selected' + this.moveBack],
+      'geometryType': govmap.drawType.Point,
+      'defaultSymbol':
+      {
+        outlineColor: [40, 41, 82, 1],
+        outlineWidth: 1,
+        fillColor: [40, 41, 82, 1]
+      },
+      'symbols': [],
+      'clearExisting': false,
+      'data': {
+        'headers': [''],
+        'bubbles': [''],
+        'tooltips': [sessionStorage.getItem('e.resourceID') + ", " + sessionStorage.getItem('e.name')]
+      }
+    }
+
+    var res_list = [];
+    govmap.displayGeometries(data).progress((res) => {
+      console.log(res);
+      res_list.push(res);
+      this.searchService.hide();
+      setTimeout(() => {
+        if (res_list[0]) {
+          this.ngZone.run(() => {
+            this.openInformation(res.data.geomData, res.data.x, res.data.y);
+          });
+          res_list = [];
+        }
+      }, 10);
+    })
+  }
+
 }

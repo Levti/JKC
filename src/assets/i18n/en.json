@@ -167,8 +167,9 @@
         "walkingPath": "Walking Path",
         "azimuth": "Azimuth",
         "googleMap": "Google map",
-        "Regions" : "Regions",
-        "Location" : "Change location",
+        "Regions": "Regions",
+        "Location": "Change location",
+        "Undo": "Undo",
         "test":"test"
     }
 }

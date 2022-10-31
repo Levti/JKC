@@ -334,7 +334,11 @@ mat-form-field {
 }
 
 .changeLocation{
-  margin-top: 336px;
+  margin-top: 342px;
+}
+
+.undoMove{
+  margin-top: 369px;
 }
 
 .btnRectangle {
@@ -436,6 +440,11 @@ mat-form-field {
 .expandB {
     margin-top: 15px;
     right: 0px;
+}
+
+button:disabled {
+  color: #dfdfdf;
+  cursor: auto;
 }
 
 .calc {
