@@ -1558,5 +1558,4 @@ createLog(){
 removeLog(){
   this.http.post('http://localhost:8080/api/Sites/RemoveSite?columns=', this.relocations, this.httpOptions).subscribe(data => {})
 }
-
 }
