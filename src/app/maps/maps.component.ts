@@ -892,6 +892,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           //this.finalLog = Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
           this.finalLog = "The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
           //console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + n.mapPoint.x.toFixed(0) + " " + n.mapPoint.y.toFixed(0));
+          this.createLog();
       });
       }
 
@@ -902,6 +903,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
         sessionStorage.setItem('e.pointY', e.pointY);
         this.theSite = e.resourceID + ", " + e.name;
         this.theLocation = e.pointX + " " + e.pointY;
+        this.relocations = 1;
         //this.moveBack++;
         var data = {
           'wkts': ['POINT(' + e.pointX + ' ' + e.pointY + ')'],
@@ -989,6 +991,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           //this.finalLog = Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
           this.finalLog = "The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
           //console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + n.mapPoint.x.toFixed(0) + " " + n.mapPoint.y.toFixed(0));
+          this.createLog();
       });
       }
     }
@@ -1545,6 +1548,15 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }, 10);
     })
+    this.removeLog();
   }
+
+createLog(){
+  this.http.post('http://localhost:8080/api/Sites/LogSite?log=', JSON.stringify(this.finalLog), this.httpOptions).subscribe(data => {})
+}
+
+removeLog(){
+  this.http.post('http://localhost:8080/api/Sites/RemoveSite?columns=', this.relocations, this.httpOptions).subscribe(data => {})
+}
 
 }
