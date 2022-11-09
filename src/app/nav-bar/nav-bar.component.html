@@ -9,7 +9,7 @@
         <a class="a flex-item-a" (click)="AboutUs()" routerLink="AboutUs" mat-menu-item [ngClass]="{'butin':!aboutUs, 'buttout':aboutUs}">{{'information.aboutUs'|translate}}</a>
         <a class="a flex-item-a" (click)="TheCenterF()" routerLink="TheCenter" mat-menu-item [ngClass]="{'butin':!theCenter, 'buttout':theCenter}">{{'information.theCenter'|translate}}</a>
         <!--<a class="a flex-item-c" (click)="mapF()" [ngClass]="{'butin':!map, 'buttout':map}" href=""> {{'nav.map'|translate}}</a>-->
-        <a class="a flex-item-c" (click)="mapF()" [ngClass]="{'butin':!map, 'buttout':map}" href="https://jkc.biu.ac.il/Dev/"> {{'nav.map'|translate}}</a>
+        <a class="a flex-item-c" (click)="mapF()" [ngClass]="{'butin':!map, 'buttout':map}" href="https://jkc.biu.ac.il/"> {{'nav.map'|translate}}</a>
         <span class="spacer"></span>
 
         <button *ngIf="navDesign" class="butt item-d" mat-button [ngClass]="{'butin':showSo == false, 'buttout':showSo == true}" (click)="openSource()">
