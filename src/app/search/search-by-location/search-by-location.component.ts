@@ -1,17 +1,29 @@
-import { Component, OnInit, Output, EventEmitter, Input, ViewChild, AfterViewInit } from '@angular/core';
+
+//import { MapsComponent } from './../../maps/maps.component';
+declare const govmap: any;
+
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, AfterViewInit, Injectable, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SearchSService } from 'src/app/Services/search-s.service';
 import { startWith, map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Observable, Subject, iif } from 'rxjs';
+import { Observable, Subject, iif, BehaviorSubject, observable, Subscription } from 'rxjs';
 import { searchDetails } from '../search.model';
 import { exists } from 'fs';
+
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-search-by-location',
   templateUrl: './search-by-location.component.html',
   styleUrls: ['./search-by-location.component.css'],
 })
-export class SearchByLocationComponent implements OnInit, AfterViewInit {
+export class SearchByLocationComponent implements OnInit, AfterViewInit, OnDestroy {
+
+
+
   searctrl: FormControl;
   searchText = new Subject<string>();
   placeSearch = new Observable<searchDetails[]>();
@@ -31,12 +43,24 @@ export class SearchByLocationComponent implements OnInit, AfterViewInit {
   @ViewChild("endInput", { static: false }) endInput;
   isLoadingData: boolean;
 
+  message:string;
+  isSearch: boolean;Y
+  isSearchSubscription: Subscription;
+
   constructor(private searchservice: SearchSService) {
+
     this.searctrl = new FormControl();
     this.placeSearch = null;
   }
 
+
   ngOnInit() {
+    
+    this.isSearchSubscription = this.searchservice.isSearch$.subscribe(isSearch => {
+      this.isSearch = isSearch;
+    });
+
+
     this.selectedValue = '';
     this.searchText.pipe(debounceTime(200), distinctUntilChanged(), switchMap(x => this.searchservice.searchByLocation(<any>x)))
       .subscribe((x: any[]) => this.placeSearch = <any>x);
@@ -58,6 +82,9 @@ export class SearchByLocationComponent implements OnInit, AfterViewInit {
     this.searchText.next(searchL);
   }
   search() {
+    //govmap.zoomToXY({ x: , y: 216994.9, level: 5, marker: false }); // zoom to site 
+    //this.isSearch = true;
+  
     this.isLoadingData = this.searchservice.isLoadingData = true;
     let selectValue = { id: 0.1, nameHe: this.selectedValue, nameEn: this.selectedValue, timeline: null, period: null, perdiocal: null, siternature: null, location: this.selectedValue };
     let selectedValueExists: boolean;
@@ -84,5 +111,13 @@ export class SearchByLocationComponent implements OnInit, AfterViewInit {
   selectedOption(event) {
     this.selectedValue = event.option.value;
     console.log(this.selectedValue);
+  }
+
+  allowZoom(){
+    this.searchservice.allowZoom();
+  }
+
+  ngOnDestroy(): void {
+      this.isSearchSubscription.unsubscribe();
   }
 }

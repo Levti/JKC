@@ -1,3 +1,4 @@
+import { SearchByLocationComponent } from './../search/search-by-location/search-by-location.component';
 import { ClickOutsideModule } from 'ng-click-outside';
 declare const govmap: any;
 declare var $: any;
@@ -25,7 +26,9 @@ import { ComputeService } from './compute.service';
 import { RegionsComponent } from './regions/regions.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Console } from 'console';
-import { saveAs } from 'file-saver'; // Don't forget to import the file-saver
+
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 
 //Translate range label
@@ -68,12 +71,20 @@ class xy {
   y: number;
 }
 
+//@Injectable({
+//  providedIn: 'root'
+// })
+
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
 export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  //subscription: Subscription;
+  isSearch: boolean;
+
   public pageSize: number = 3;
   AllSites$: Site[] = [];
   SiteDefaultDesign: Site[] = [];
@@ -149,7 +160,6 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   centerY: number;
   centerZoom: number;
   Regions: boolean = true;
-  //languageID: number = 2;
   changeSiteLocation: boolean = false;
   theSite: string;
   theLocation: string;
@@ -159,6 +169,10 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   moveBack: number = 0;
   disableUndo: boolean = true;
   relocations: number = 1;
+  logX: string;
+  logY: string;
+  isSearchSubscription: Subscription;
+
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json; charset=utf-8'
@@ -170,7 +184,9 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   heightAzimut: number = 400;
   constructor(private renderer: Renderer2, private ngZone: NgZone,
     public searchService: SearchSService, private translate: TranslateService, public computes: ComputeService,
-    private siteservice: SitesService, public dialog: MatDialog, public reg: RegionsComponent, private _snackBar: MatSnackBar, private http: HttpClient) {
+    private siteservice: SitesService, public dialog: MatDialog, public reg: RegionsComponent, private _snackBar: MatSnackBar, private http: HttpClient, private readonly SearchByLocationComponent: SearchByLocationComponent) {
+
+      
     this.browserLang = this.translate.getDefaultLang();
     if (this.browserLang === 'he') {
       this.he = true;
@@ -179,7 +195,13 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.he = false;
     }
   }
+
   ngOnInit() {
+  
+    this.isSearchSubscription = this.searchService.isSearch$.subscribe(isSearch => {
+      this.isSearch = isSearch;
+
+    });
 
     this.numScreen = Math.floor(window.innerHeight / 230);
 
@@ -890,7 +912,9 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.moveSite++;
           //localStorage.setItem('logSites', Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")\n" + localStorage.getItem('logSites'));
           //this.finalLog = Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
-          this.finalLog = "The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
+          //this.finalLog = "The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
+          this.logX = n.mapPoint.x.toFixed(0).toString();
+          this.logY = n.mapPoint.y.toFixed(0).toString();
           //console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + n.mapPoint.x.toFixed(0) + " " + n.mapPoint.y.toFixed(0));
           this.createLog();
       });
@@ -989,7 +1013,9 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           govmap.clearGeometriesByName(["selected" + this.moveBack]); 
           //localStorage.setItem('logSites', Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")\n" + localStorage.getItem('logSites'));
           //this.finalLog = Date().toString().split(' ')[1] + " " + Date().toString().split(' ')[2] + " " + Date().toString().split(' ')[4] + ": The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
-          this.finalLog = "The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
+          //this.finalLog = "The site " + "\"" + this.theSite + "\"" + " was moved from (" + this.theLocation + ") to " + "(" + n.mapPoint.x.toFixed(0).toString() + " " + n.mapPoint.y.toFixed(0).toString() + ")";
+          this.logX = n.mapPoint.x.toFixed(0).toString();
+          this.logY = n.mapPoint.y.toFixed(0).toString();
           //console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + n.mapPoint.x.toFixed(0) + " " + n.mapPoint.y.toFixed(0));
           this.createLog();
       });
@@ -1017,8 +1043,9 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   i = 0;
   arrayOfName: string[] = [];
   getDataObj(sitesArray, wktsArr, namesArr, geoType, defaultSmb, symbolArr) {
-    if (sitesArray != null && this.i != 0) {
-      govmap.zoomToXY({ x: sitesArray[0].pointX, y: sitesArray[0].pointY, level: 5, marker: false });
+    if (sitesArray != null && this.i != 0 && this.isSearch) {
+      govmap.zoomToXY({ x: sitesArray[0].pointX, y: sitesArray[0].pointY, level: 5, marker: false }); // zoom to site
+      this.searchService.allowZoom()
     }
     /*else {
     govmap.zoomToXY({ x: 222200, y: 631400, level: 5 });
@@ -1414,6 +1441,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     console.log('ngOnDestroy');
     this.subscription.unsubscribe();
+    this.isSearchSubscription.unsubscribe();
   }
   
   /*ShowRegions() {
@@ -1551,11 +1579,17 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.removeLog();
   }
 
-createLog(){
+/*createLog(){
   this.http.post('http://localhost:8080/api/Sites/LogSite?log=', JSON.stringify(this.finalLog), this.httpOptions).subscribe(data => {})
+}*/
+
+createLog(){
+  this.http.post('https://jkc.biu.ac.il/Devwebapi/api/' + 'Sites/LogSite?data=', {'siteName': this.theSite , 'theSource': '(' + this.theLocation + ')' , 'theDestination' : '(' + this.logX.toString() + " " +  this.logY.toString() + ')'}, this.httpOptions).subscribe(data => {})
 }
 
+
 removeLog(){
-  this.http.post('http://localhost:8080/api/Sites/RemoveSite?columns=', this.relocations, this.httpOptions).subscribe(data => {})
+  this.http.post('https://jkc.biu.ac.il/Devwebapi/api/' + 'Sites/RemoveSite?columns=', this.relocations, this.httpOptions).subscribe(data => {})
 }
+
 }

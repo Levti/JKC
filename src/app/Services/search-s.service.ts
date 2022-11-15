@@ -12,7 +12,6 @@ import { catchError } from 'rxjs/operators';
 
 
 
-
 export class ShowState {
   show: boolean;
 }
@@ -21,6 +20,10 @@ export class ShowState {
   providedIn: 'root'
 })
 export class SearchSService {
+
+  private isSearch = new BehaviorSubject<boolean>(false);
+  isSearch$: Observable<boolean>;
+
   private baseUrl = environment.apiUrl;
   // private baseUrl = 'http://localhost:8080/api/';
   headers = {
@@ -37,6 +40,7 @@ export class SearchSService {
   private email = this.baseUrl + 'Values/GetSendEmail?contactAddress=';
   private searchFreeLocation = this.baseUrl + 'Sites/LocationSearch?locationSearch=';
 
+
   list_search_result: ListsSearch[] = [];
   filterPeriod: ListsSearch[] = [];
   filterPerdiocals: ListsSearch[] = [];
@@ -50,11 +54,12 @@ export class SearchSService {
   httpCalls = [];
   isLoadingData: boolean;
   constructor(private http: HttpClient) {
+    this.isSearch$ = this.isSearch.asObservable();
   }
 
-
-
-  
+  allowZoom(value?:boolean): void{
+    this.isSearch.next(value || !this.isSearch.getValue());
+  }
 
   //Get sites list from api:
   getList(sitesB: boolean) {
@@ -63,6 +68,7 @@ export class SearchSService {
     //Check if user want empty list - empty map or not:
     if (sitesB) {
       this.http.post(this.baseUrl + 'Sites/GetS?searches=', this.list_search_result)
+      //this.http.get(this.baseUrl + 'Sites/GetAllSites', )
     .subscribe(x => {
           console.log("123");
           this.Sites = <any>x;
