@@ -43,7 +43,7 @@
         <mat-paginator #paginators [length]="100" [pageSize]="numScreen" dir="rtl" class="footer" style="background-color:transparent;" [hidePageSize]="true"></mat-paginator>
         <br>
     </div>
-    <!--<label id="ITM" *ngIf="xyScreenITM!=null" [ngClass]="{'xyScreenListOpenT':!listOfSites, 'xyScreenListOpen':listOfSites}">Israel Transverse Mercator (ITM): {{xyScreenITM}}</label>-->
+    <label id="ITM" *ngIf="xyScreenITM!=null" [ngClass]="{'xyScreenListOpenT':!listOfSites, 'xyScreenListOpen':listOfSites}">Israel Transverse Mercator (ITM): {{xyScreenITM}}</label>
     <label id="ICS" *ngIf="xyScreenICS!=null" [ngClass]="{'xyScreenListOpenT':!listOfSites, 'xyScreenListOpen':listOfSites}">Israel Cassini Soldner (ICS): {{xyScreenICS}}</label>
     <div *ngIf="ten!=0" class="scale" id="scale" jstcache="0">
         <div class="scaleWidth" [style.width.px]="ten"></div>
