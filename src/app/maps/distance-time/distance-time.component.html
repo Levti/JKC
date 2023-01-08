@@ -1,12 +1,16 @@
 <div>
-  <label for="">{{'walkingPath.walkingRoute'|translate}}</label>
+  <label for="">{{'walkingPath.walkingRoute'|translate}}</label><!--<a style="display: block;" routerLink="Tutorial" routerLinkActive="router-link-active" class="help div"><div class="help link">{{'Tooltips.help'|translate}}</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>-->
   <br>
+  <a [ngClass]="{'help-link-show':he, 'help-link-hide':!he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">עזרה</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
+  <a [ngClass]="{'help-link-show':!he, 'help-link-hide':he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">help</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
+
   <div class="my-list" #scrollMe [scrollTop]="scrollMe.scrollHeight">
       <div *ngFor="let xy of computes.xySelectionRel; let index=index">
           <button *ngIf="computes.xySelectionRel.length>2" mat-icon-button (click)="removeXY(index)" [disabled]="calcWalkingPath"><mat-icon>close</mat-icon>
           </button>
           <mat-form-field style="width: 200px;">
-              <input class="coordinates" #input [disabled]="calcWalkingPath" style="font-family: Rubik;" [value]="xy" autocomplete="off" matInput (click)="computes.xyDis($event, index)" type="text" placeholder="{{'walkingPath.enterCoordinates'|translate}}">
+              <input #input [disabled]="calcWalkingPath" style="font-family: Rubik;" [value]="xy" autocomplete="off" matInput (click)="computes.xyDis($event, index)" type="text" placeholder="{{'walkingPath.enterCoordinates'|translate}}">
+              <!--<input #input [disabled]="calcWalkingPath" style="font-family: Rubik;" [value]="xy" autocomplete="off" matInput (click)="computes.xyDis($event, index)" type="text" placeholder="{{'walkingPath.enterCoordinates'|translate}}">-->
           </mat-form-field>
       </div>
   </div>

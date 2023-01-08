@@ -1,5 +1,14 @@
 
-<label *ngIf="computes.locationToViewshed" for="">{{'viewShed.selectLocation'|translate}}</label>
+<label *ngIf="computes.locationToViewshed" for="">{{'viewShed.selectLocation'|translate}}</label><!--<div class="help div"><a routerLink="Tutorial" routerLinkActive="router-link-active" class="help link">{{'Tooltips.help'|translate}}</a><span class="material-icons" style="position: initial; font-size: 18px;">help</span></div>-->
+<!--<a [ngClass]="{'help-link-EN':he, 'help-link-HE':!he}" style="display: block;" routerLink="Tutorial" routerLinkActive="router-link-active" class="help div"><div class="help link">{{'Tooltips.help'|translate}}</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>-->
+
+
+<a [ngClass]="{'help-link-show':!he, 'help-link-hide':he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">עזרה</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
+<a [ngClass]="{'help-link-show':he, 'help-link-hide':!he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">help</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
+
+
+<!--<div [ngClass]="{'showLink':he, 'hideLink':!he}"><a style="display: block;" routerLink="Tutorial" routerLinkActive="router-link-active" class="help div"><div class="help link">עזרה</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a></div>
+<div [ngClass]="{'showLink':!he, 'hideLink':he}"><a style="display: block;" routerLink="Tutorial" routerLinkActive="router-link-active" class="help div en"><span class="material-icons" style="position: initial; font-size: 18px;">help</span><div class="help link en">help</div></a></div>-->
 <form validate *ngIf="!computes.locationToViewshed" [formGroup]="computes.viewShedForm">
     <label style="font-size: 18px;" for="">{{'viewShed.viewShed'|translate}}</label>
     <br>
