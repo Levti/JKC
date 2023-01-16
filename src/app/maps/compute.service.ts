@@ -67,7 +67,8 @@ export class ComputeService {
   constructor(private siteservice: SitesService, public dialog: MatDialog, private ngZone: NgZone, private fb: FormBuilder, private searchService: SearchSService) {
     this.viewShedForm = fb.group({
       height: [2, [Validators.required, Validators.max(20)]],
-      radius: [5000, [Validators.required, Validators.max(20000)]],
+      //radius: [5000, [Validators.required, Validators.max(20000)]],
+      radius: [5000, [Validators.required, Validators.max(30000)]],
     })
   }
   //Conversion from ITM to lat-long:
@@ -186,7 +187,7 @@ export class ComputeService {
   }
   //Open an information window on a specific site:
   openInformation(e: any, x: any, y: any) {
-    if (!this.locationToAz && !this.locationToDisWalk && !this.locationToViewshed && e != null && e != undefined) {
+      if (!this.locationToAz && !this.locationToDisWalk && !this.locationToViewshed && e != null && e != undefined) {
       // if (e != null) {
       // govmap.zoomToXY({ x: e.pointX, y: e.pointY });
       // if (e != undefined) {
@@ -250,7 +251,7 @@ export class ComputeService {
     if (this.xySelectionRel.length > this.indexDis) {
       this.moveToNext(this.eventDis, this.indexDis + 1);
     }
-    this.load = false;
+    this.load = false;              
   }
   //Move to next input in xySelection:
   moveToNext(event, index) {
@@ -501,7 +502,7 @@ export class ComputeService {
   keyupViewShed(event) {
     console.log(event);
     console.log("come to  keyupViewShed");
-    govmap.clearGeometriesByName(['circle', 'circleSmall']);
+    //**govmap.clearGeometriesByName(['circle', 'circleSmall']);
     this.rad = +event;
     var data = {
       'circleGeometries': [{ x: this.xToViewshed, y: this.yToViewshed, radius: this.rad }],
@@ -610,7 +611,9 @@ export class ComputeService {
       govmap.clearGeometriesByName(['wayPoint' + index]);
     }
     govmap.clearGeometriesByName(['Polyline1', 'Polyline2', 'person1', 'circle', 'circleSmall', 'polylineAzimuth', 'polylineAzimuthUp', 'circleAzimuth'])
+    //govmap.clearGeometriesByName(['Polyline1', 'Polyline2', 'circleSmall', 'polylineAzimuth', 'polylineAzimuthUp', 'circleAzimuth'])
     govmap.clearGeometriesByName(['num 1', 'num 2'])
     if (this.strIntoObj != null) govmap.clearGeometriesByName(this.strIntoObj.wkts);
   }
+
 }
