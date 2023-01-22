@@ -1,3 +1,4 @@
+import { TutorialsComponent } from './../tutorials/tutorials.component';
 import { SearchByLocationComponent } from './../search/search-by-location/search-by-location.component';
 import { ClickOutsideModule } from 'ng-click-outside';
 declare const govmap: any;
@@ -25,10 +26,16 @@ import { SiteConstructionComponent } from '../site-construction/site-constructio
 import { ComputeService } from './compute.service';
 import { RegionsComponent } from './regions/regions.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Console } from 'console';
+import { Console, debug } from 'console';
+import { useChromeStorageLocal } from 'use-chrome-storage';
+import { ViewshedComponent} from './viewshed/viewshed.component';
+
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import Dexie, { liveQuery, Table } from 'dexie';
+import { Key } from 'protractor';
+import { CombineLatestOperator } from 'rxjs/internal/observable/combineLatest';
 
 
 //Translate range label
@@ -71,20 +78,16 @@ class xy {
   y: number;
 }
 
-//@Injectable({
-//  providedIn: 'root'
-// })
-
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
+
 export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
-
   //subscription: Subscription;
+  public DBexist: boolean;
   isSearch: boolean;
-
   public pageSize: number = 3;
   AllSites$: Site[] = [];
   SiteDefaultDesign: Site[] = [];
@@ -172,6 +175,9 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   logX: string;
   logY: string;
   isSearchSubscription: Subscription;
+  isCalcSubscription: Subscription;
+  private db: any;
+  //isCalculated: boolean;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -179,12 +185,14 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   };
 
+
   @ViewChild(ScrollToBottomDirective, { static: false }) scroll: ScrollToBottomDirective;
   isLoadingData: boolean;
   heightAzimut: number = 400;
-  constructor(private renderer: Renderer2, private ngZone: NgZone,
+  constructor(private viewshed: ViewshedComponent, private renderer: Renderer2, private ngZone: NgZone,
     public searchService: SearchSService, private translate: TranslateService, public computes: ComputeService,
     private siteservice: SitesService, public dialog: MatDialog, public reg: RegionsComponent, private _snackBar: MatSnackBar, private http: HttpClient, private readonly SearchByLocationComponent: SearchByLocationComponent) {
+
 
       
     this.browserLang = this.translate.getDefaultLang();
@@ -194,10 +202,37 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
       this.he = false;
     }
+
+    /*this.db = new Dexie('MyDatabase');
+    this.db.version(1).stores({
+      friends: 'name, age'
+    });*/
+
+    /*Dexie.exists('Sites').then(function(exists) {
+      if (exists) {
+          this.DBexist = true;
+          console.log('myDatabase exists!');
+          /*Dexie.delete('Sites').then(function() {
+            console.log('myDatabase has been deleted.');
+        });*/
+      /*} else {
+        this.DBexist = false;
+          console.log('myDatabase does not exist.');
+      }
+  });*/
+
+    
+
   }
+
 
   ngOnInit() {
   
+    /*this.sharedDataService.isCalculated.subscribe(value => {
+      console.log(value);
+  });*/
+
+
     this.isSearchSubscription = this.searchService.isSearch$.subscribe(isSearch => {
       this.isSearch = isSearch;
 
@@ -237,38 +272,6 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           }
 
           $(this).delay(5000).queue(function () {
-
-            /*for (let index = 0; index < this.SiteDefaultDesign.length; index++) {
-              const element = this.SiteDefaultDesign[index];
-              if (element.pointX >= this.xmin && element.pointX <= this.xmax && element.pointY >= this.ymin && element.pointY <= this.ymax) {
-                this.sumOfSitesZoom++;
-              }
-            }*/
-            //$("link[rel='stylesheet']").remove();
-
-
-            /*try {
-              //$("#map_layers").css("z-index","1 !important");
-              $(".map .esriMapContainer .esriMapLayers").attr("style","z-index:1 !important");
-              console.log('changed');
-            }
-            catch(err) {
-              console.log('no change');
-            }*/
-
-            //jQuery("#ifrMap").contents().find("head");
-            //$("#map_layers").css("z-index",1);
-            //$(".map .esriMapContainer .esriMapLayers").css("z-index",'1');
-            //document.getElementById("map_layers").style.zIndex = "1";
-
-            /*if($("#map_layers").css("z-index",1)){
-              console.log('true');
-            }
-            else{
-              console.log('false');
-            }*/
-
-
             //console.log(this.sumOfSitesZoom);
             $(this).dequeue();
           });
@@ -329,6 +332,12 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     ///several sites are marked on the map show:
     ///calculation scale:
     govmap.onEvent(govmap.events.EXTENT_CHANGE).progress((e) => {
+      
+
+      if(this.xmax < 125000 || this.xmin > 285000 || this.ymax < 375000 || this.ymin > 805000){
+        //console.log("ZOOM BACK!" + " xmax: " + this.xmax + " xmin: " + this.xmin + " ymax: " + this.ymax + " ymin: " + this.ymin + " " );
+        govmap.zoomToXY({ x: 222200, y: 631550});
+      }
 
       //console.log(window.screen.width);
       var widthMapUp = parseInt(((e.extent.xmax - e.extent.xmin)).toFixed(0));
@@ -437,10 +446,6 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.xyScreenITM = 'X: ' + res.mapPoint.x.toFixed(0) + ' Y: ' + res.mapPoint.y.toFixed(0);
       })
 
-      //console.log("wgs84: " + this.computes.computeITMToLatLng(res.mapPoint.x, res.mapPoint.y)[0] + " " + this.computes.computeITMToLatLng(res.mapPoint.x, res.mapPoint.y)[1]); 
-      //console.log(this.computes.computeITMToLatLng(res.mapPoint.x, res.mapPoint.y)[0] + " " + this.computes.computeITMToLatLng(res.mapPoint.x, res.mapPoint.y)[1]);
-      //this.urlMap = "https://www.google.co.il/maps/@" + this.computes.computeITMToLatLng(this.centerX,this.centerY)[0] + "," + this.computes.computeITMToLatLng(this.centerX,this.centerY)[1] + ",12z";
-      //this.urlMap = "https://www.google.co.il/maps/@" + this.computes.computeITMToLatLng(res.mapPoint.x, res.mapPoint.y)[0] + "," + this.computes.computeITMToLatLng(res.mapPoint.x, res.mapPoint.y)[1] + ",12z";
     })
 
   }
@@ -514,16 +519,25 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (data != null) {
       this.SiteDefaultDesign = [];
       this.AllSites$ = [];
+
+
+
       from<any>(data.sitesArchiology).pipe(distinct((p: Site) => p['resourceID']),).subscribe(x => {
         if (x.pointX != 0 || x.pointY != 0) {
           this.SiteDefaultDesign.push(x);
-          //console.log(x.languageID + " | " + x.resourceID + " | " + x.name);
-          //debugger;
-          //console.log(x);
+
         }
       });
-      //console.log("----- " + data.sitesArchiology);
-      console.log(this.SiteDefaultDesign);
+
+      $('.loader').delay(10000).fadeOut('slow');
+      $('.loader-delay').delay(25000).fadeOut('slow');
+
+
+      /*setTimeout(() => {
+        $('.loader-delay').fadeOut('slow');
+      }, 20000);*/ // try
+
+
       ///receives sites in hebrew:
       this.SiteDefaultHeb = data.sitesArchiology.filter(x => x.languageID === 1);
       ///distinct by resourceID:
@@ -540,18 +554,33 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       from<any>(this.SiteDefaultDesign).pipe(distinct((p: Site) => p['resourceID']),).subscribe(x => {
         if (x.pointX != 0 || x.pointY != 0) {
           this.SiteDefaultDesignEng.push(x);
-          //console.log();
-          //console.log('------------------this is EN');
-          //console.log(x.languageID);
         }
       });
       
-      for(var z=0; z<2000; z++){
-        //console.log(this.SiteDefaultDesign[z].name);
-        //console.log(data.sitesArchiology[z]);
-        //console.log("---" + this.AllSites$[z]);
-        //console.log(this.languageID);
-      }
+
+
+      console.log("EN:" + JSON.stringify(this.SiteDefaultEng));
+      console.log("HE:" + JSON.stringify(this.SiteDefaultHeb));
+      //console.log("EN SiteDefaultDesignEng:" + JSON.stringify(this.SiteDefaultDesignEng));
+      //console.log("HE SiteDefaultDesignHE:" + JSON.stringify(this.SiteDefaultDesignHeb));
+      /// INDEXEDDB
+      /*var db = new Dexie("Sites");
+      db.version(1).stores({Sites: '++id'});
+      db.table("Sites").put({AllSitesEN: this.SiteDefaultEng, AllSitesHE: this.SiteDefaultHeb});
+
+
+      //var theList = db.table("Sites").get({id: 1});
+      //console.log(theList);
+
+
+      let site;
+      db.table("Sites").get(1).then(function(siteData) {
+        site = siteData;
+        //console.log("999909099 " + JSON.stringify(site)); // This will log the site data object to the console
+      });*/
+
+
+
 
 
       ///inserting sites in hebrew if there is no English (by resourceID):
@@ -679,6 +708,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
             symbolArr
           ));
         }
+
 
         if (this.he) {
           const symbolArrHistory = new Array(this.siteHistoryHeb.length);
@@ -916,6 +946,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.logX = n.mapPoint.x.toFixed(0).toString();
           this.logY = n.mapPoint.y.toFixed(0).toString();
           //console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + n.mapPoint.x.toFixed(0) + " " + n.mapPoint.y.toFixed(0));
+          this.updateLocation(sessionStorage.getItem('e.resourceID'), n.mapPoint.x.toFixed(0), n.mapPoint.y.toFixed(0));
           this.createLog();
       });
       }
@@ -1017,11 +1048,13 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.logX = n.mapPoint.x.toFixed(0).toString();
           this.logY = n.mapPoint.y.toFixed(0).toString();
           //console.log("The site " + "\"" + this.theSite + "\"" + " was moved from " + this.theLocation + " to " + n.mapPoint.x.toFixed(0) + " " + n.mapPoint.y.toFixed(0));
+          this.updateLocation(e.resourceID, n.mapPoint.x.toFixed(0), n.mapPoint.y.toFixed(0));
           this.createLog();
       });
       }
     }
     else if(!this.changeSiteLocation){
+      //console.log("46456456 " + e.resourceID);
       this.computes.openInformation(e, x, y);
     }
 
@@ -1045,7 +1078,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   getDataObj(sitesArray, wktsArr, namesArr, geoType, defaultSmb, symbolArr) {
     if (sitesArray != null && this.i != 0 && this.isSearch) {
       govmap.zoomToXY({ x: sitesArray[0].pointX, y: sitesArray[0].pointY, level: 5, marker: false }); // zoom to site
-      this.searchService.allowZoom()
+      this.searchService.allowZoom();
     }
     /*else {
     govmap.zoomToXY({ x: 222200, y: 631400, level: 5 });
@@ -1057,7 +1090,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       showBubble: false,
       names: namesArr,
       geometryType: geoType,
-      clearExisting: true,
+      clearExisting: true, // deletes
       // defaultSymbol: defaultSmb,
       symbols:
         symbolArr
@@ -1078,11 +1111,24 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
 
+    //
     console.log(data);
     console.log(this.sumOfSitesZoom + ' Sites');
-    // debugger
+    
+    this.viewshed.calculationViewshed();
+    //this.computes.keyupViewShed();
+    
+    //console.log("123131231231 " + this.isCalculated);
+    //debugger;
+    /*if(this.viewshedStatus.isCalculated$){
+      console.log("the status: " + this.viewshedStatus.isCalculated$);
+      //this.viewshedStatus.calculationViewshed();
+  }
+    if(isCalclated){
+      run the function
+    }*/
 
-    $('.loader').delay(500).fadeOut('slow');
+    //$('.loader').delay(500).fadeOut('slow');
     return data;
   }
   //Get data of history sites:
@@ -1496,7 +1542,6 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.reg.showRegions();
   }
 
-
   //Remeber last location
 
   mapZoom(zoom: number){
@@ -1531,7 +1576,6 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     //govmap.clearGeometriesByName(['selected']);
     sessionStorage.setItem('LocX', sessionStorage.getItem('e.pointX'));
     sessionStorage.setItem('LocY', sessionStorage.getItem('e.pointY'));
-
     //govmap.onEvent(govmap.events.CLICK).progress((n) =>{ 
     //  govmap.unbindEvent(govmap.events.CLICK);
       //sessionStorage.setItem('LocX', sessionStorage.getItem('e.pointX'));
@@ -1576,6 +1620,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }, 10);
     })
+    this.updateLocation(sessionStorage.getItem('e.resourceID'), sessionStorage.getItem('e.pointX'), sessionStorage.getItem('e.pointY'));
     this.removeLog();
   }
 
@@ -1592,4 +1637,15 @@ removeLog(){
   this.http.post('https://jkc.biu.ac.il/Devwebapi/api/' + 'Sites/RemoveSite?columns=', this.relocations, this.httpOptions).subscribe(data => {})
 }
 
+updateLocation(ID, x, y){
+  this.http.post('https://jkc.biu.ac.il/Devwebapi/api/' + 'Sites/UpdateLocation?data=', {'ID': ID , 'x': + x , 'y' : + y}, this.httpOptions).subscribe(data => {})
 }
+
+}
+
+
+
+
+//change envi
+//DEL DEX
+//change to dev link

@@ -129,9 +129,10 @@
         "viewShedInsertParameters": "Input required parameters",
         "selectLocation": "Select a location on the map",
         "errorH": "Maximum view height: 20 meter",
-        "errorR": "Maximum view height: 20000 meter",
+        "errorR": "Maximum view height: 30000 meter",
         "calculation": "Calculate",
-        "recalculation": "Recalculate"
+        "recalculation": "Recalculate",
+        "del": "Clear calculation"
     },
     "walkingPath": {
         "walkingRoute": "Creating a walking route",
@@ -170,6 +171,7 @@
         "Regions": "Regions",
         "Location": "Change location",
         "Undo": "Undo",
-        "test":"test"
+        "help": "help",
+        "new1":"new1"
     }
 }

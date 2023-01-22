@@ -128,9 +128,10 @@
         "viewShedInsertParameters": "הכנס ערכים רצויים",
         "selectLocation": "בחר מיקום על המפה",
         "errorH": "גובה תצפית מקסימלי: 20 מטר",
-        "errorR": "רדיוס תצפית מקסימלי: 20000 מטר",
+        "errorR": "רדיוס תצפית מקסימלי: 30000 מטר",
         "calculation": "חישוב",
-        "recalculation": "חישוב מחדש"
+        "recalculation": "חישוב מחדש",
+        "del": "נקה חישוב"
     },
     "walkingPath": {
         "walkingRoute": "יצירת מסלול הליכה",
@@ -169,6 +170,7 @@
         "Regions" : "אזורים",
         "Location" : "שנה מיקום",
         "Undo": "בטל הזזה",
-        "test":"בדיקה"
+        "help": "עזרה",
+        "new1":"new1"
     }
 }
