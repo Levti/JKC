@@ -1,3 +1,4 @@
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -22,7 +23,7 @@ import { NavBarBottomComponent } from './nav-bar-bottom/nav-bar-bottom.component
 import { StylePaginatorDirective } from './maps/style-paginator.directive';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
-import { MatPaginatorIntl } from '@angular/material';
+import { MatDialogRef, MatPaginatorIntl, MAT_DIALOG_DATA } from '@angular/material';
 import { InformationHistoryComponent } from './maps/information-history/information-history.component';
 import { LezichramComponent } from './about/lezichram/lezichram.component';
 import { TheCenterComponent } from './about/the-center/the-center.component';
@@ -44,6 +45,8 @@ import { ViewshedComponent } from './maps/viewshed/viewshed.component';
 import { AzimuthComponent } from './maps/azimuth/azimuth.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { RegionsComponent } from './maps/regions/regions.component';
+import { TutorialsComponent } from './tutorials/tutorials.component';
+
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -77,6 +80,8 @@ export function createTranslateLoader(http: HttpClient) {
     ViewshedComponent,
     AzimuthComponent,
     RegionsComponent,
+    TutorialsComponent,
+    NavBarComponent,
     // HighchartsChartModule
   ],
   imports: [
@@ -103,10 +108,12 @@ export function createTranslateLoader(http: HttpClient) {
       }
     })
   ],
-  providers: [{ provide: MatPaginatorIntl, useValue: CustomPaginator() }],
+  providers: [{ provide: MatPaginatorIntl, useValue: CustomPaginator() }, { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} } ],
   bootstrap: [AppComponent],
   entryComponents: [
     InformationComponent, OKComponent, InformationHistoryComponent, LezichramComponent, SiteConstructionComponent
   ]
 })
+
 export class AppModule { }

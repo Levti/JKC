@@ -1,7 +1,7 @@
 declare const govmap: any;
 declare const proj4: any;
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, NgZone, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild, OnDestroy, OnChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SitesService } from 'src/app/Services/sites.service';
 import { ComputeService } from '../compute.service';
@@ -9,6 +9,8 @@ import { ScrollToBottomDirective } from '../scroolToBottom.directive';
 import { ChartType, ChartOptions, ChartXAxe, ChartYAxe, Tooltip } from "chart.js";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ThrowStmt } from '@angular/compiler';
+import { TutorialsComponent } from 'src/app/tutorials/tutorials.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-distance-time',
@@ -32,7 +34,6 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
   length_metres: number;
   wkt: any;
   
-
 
   @ViewChild(ScrollToBottomDirective, { static: false }) scroll: ScrollToBottomDirective;
   lineChartType: ChartType = "line";
@@ -102,7 +103,7 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private ngZone: NgZone, private translate: TranslateService, public computes: ComputeService,
+  constructor(private dialog: MatDialog, private ngZone: NgZone, private translate: TranslateService, public computes: ComputeService,
     private siteservice: SitesService, private http: HttpClient, private _snackBar: MatSnackBar) {
     this.browserLang = translate.getDefaultLang();
     if (this.browserLang === 'he') {
@@ -437,6 +438,10 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
         this.isLoadingWalkindPath = false;
       })
     }
+  }
+
+  openTutorial(){
+    this.dialog.open(TutorialsComponent, {data: { showViewshed: false, showDistanceTime: true, showAzimuth: false }});
   }
 
   ngOnDestroy(): void {

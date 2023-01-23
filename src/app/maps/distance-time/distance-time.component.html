@@ -1,8 +1,10 @@
 <div>
   <label for="">{{'walkingPath.walkingRoute'|translate}}</label><!--<a style="display: block;" routerLink="Tutorial" routerLinkActive="router-link-active" class="help div"><div class="help link">{{'Tooltips.help'|translate}}</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>-->
   <br>
-  <a [ngClass]="{'help-link-show':he, 'help-link-hide':!he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">עזרה</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
-  <a [ngClass]="{'help-link-show':!he, 'help-link-hide':he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">help</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
+  <a style="display: block; cursor:pointer;" (click)="openTutorial()" class="help-div"><div class="help-link">{{'Tooltips.help'|translate}}</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
+
+  <!--<a [ngClass]="{'help-link-show':he, 'help-link-hide':!he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">עזרה</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
+  <a [ngClass]="{'help-link-show':!he, 'help-link-hide':he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">help</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>-->
 
   <div class="my-list" #scrollMe [scrollTop]="scrollMe.scrollHeight">
       <div *ngFor="let xy of computes.xySelectionRel; let index=index">

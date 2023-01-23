@@ -1,6 +1,8 @@
 <label style="text-align: center;">{{'Azimuth.calcAzimuth'|translate}}</label><!--<a style="display: block;" routerLink="Tutorial" routerLinkActive="router-link-active" class="help div"><div class="help link">{{'Tooltips.help'|translate}}</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>-->
-<a [ngClass]="{'help-link-show':he, 'help-link-hide':!he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">עזרה</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
-<a [ngClass]="{'help-link-show':!he, 'help-link-hide':he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">help</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
+<a style="display: block; cursor:pointer;" (click)="openTutorial()" class="help-div"><div class="help-link">{{'Tooltips.help'|translate}}</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
+
+<!--<a [ngClass]="{'help-link-show':he, 'help-link-hide':!he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">עזרה</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
+<a [ngClass]="{'help-link-show':!he, 'help-link-hide':he}" routerLink="Tutorial" routerLinkActive="router-link-active" class="help-div"><div class="help-link">help</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>-->
 
 <br>
 <label for="">{{'Azimuth.select'|translate}}</label>

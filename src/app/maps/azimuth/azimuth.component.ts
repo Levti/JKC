@@ -6,7 +6,10 @@ import { SearchSService } from 'src/app/Services/search-s.service';
 import { ComputeService } from '../compute.service';
 //import { NavbarComponent } from 'angular-bootstrap-md';
 import { NavBarComponent } from '../../nav-bar/nav-bar.component';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material';
+import { TutorialsComponent } from 'src/app/tutorials/tutorials.component';
 
 @Component({
   selector: 'app-azimuth',
@@ -32,7 +35,7 @@ export class AzimuthComponent implements OnInit {
     }
   }
 
-  constructor(private ngZone: NgZone, public computes: ComputeService, private searchService: SearchSService, private translate: TranslateService) {
+  constructor(private dialog: MatDialog, private ngZone: NgZone, public computes: ComputeService, private searchService: SearchSService, private translate: TranslateService, private _snackBar: MatSnackBar) {
     //this.browserLang = this.translate.getDefaultLang();
     //debugger;
     /*if (this.browserLang === 'he') {
@@ -43,6 +46,8 @@ export class AzimuthComponent implements OnInit {
       this.he = false;
       console.log('False he!');
     }*/
+
+
   }
   event: any;
   ngOnInit() {
@@ -84,7 +89,8 @@ export class AzimuthComponent implements OnInit {
   //Calculate azimuth between two coordinates:
   calcAzimuth() {
     if (this.computes.firstXYAzimuth == null || this.computes.secondXYAzimuth == null) {
-      alert("נא וודא אם הנתונים שהכנסת תקינים")
+      //alert("נא וודא אם הנתונים שהכנסת תקינים")
+      this._snackBar.open("נא וודא אם הנתונים שהכנסת תקינים","OK", {duration:5000, verticalPosition:'top' , panelClass:'snackLength'});
     }
     else {
       govmap.unbindEvent(govmap.events.CLICK);
@@ -129,6 +135,10 @@ export class AzimuthComponent implements OnInit {
     this.computes.firstXAzimuth = null; this.computes.firstYAzimuth = null; this.computes.secondXAzimuth = null; this.computes.secondYAzimuth = null;
     this.computes.clearGeom();
     this.computes.timeFuncAz = 0;
+  }
+
+  openTutorial(){
+    this.dialog.open(TutorialsComponent, {data: { showViewshed: false, showDistanceTime: false, showAzimuth: true }});
   }
 }
 

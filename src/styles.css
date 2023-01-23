@@ -11,6 +11,41 @@ body {
     user-select: none;
 }
 
+
+.help-div{
+  position: absolute;
+  font-size: 13px;
+  right: 5px;
+  bottom: 0px;
+  color:#727272;
+}
+
+.help-link{
+  color:rgb(114, 114, 114); 
+  position: absolute; 
+  right: 20px; 
+  bottom: 5px;
+  text-decoration: underline;
+}
+
+.help-link-show{
+  display: block;
+}
+
+.help-link-hide{
+  display: none;
+}
+
+
+/*.help.link.en{
+  color:rgb(114, 114, 114); 
+  position: absolute; 
+  left: 10px; 
+  bottom: 5px;
+  text-decoration: underline;
+}*/
+
+
 .ltr {
     text-align: left;
     direction: rtl;

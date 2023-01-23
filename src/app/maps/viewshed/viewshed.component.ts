@@ -70,14 +70,10 @@ export class ViewshedComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private tutorials: TutorialsComponent, public translate: TranslateService, private fb: FormBuilder, private ngZone: NgZone, public computes: ComputeService, private siteservice: SitesService, private _snackBar: MatSnackBar) { }
 
-  changeValue() {
-    //this.sharedDataService.updateIsCalculated(false);
-    //this.tutorials.showOne();
-  }
 
   openTutorial(){
     this.dialog.open(TutorialsComponent, {data: { showViewshed: true, showDistanceTime: false, showAzimuth: false }});
-}
+  }
 
 
   ngOnInit() {
