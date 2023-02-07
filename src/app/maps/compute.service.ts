@@ -186,7 +186,7 @@ export class ComputeService {
     //         OnComplete_TransformCoord);
   }
   //Open an information window on a specific site:
-  openInformation(e: any, x: any, y: any) {
+  async openInformation(e: any, x: any, y: any) {
       if (!this.locationToAz && !this.locationToDisWalk && !this.locationToViewshed && e != null && e != undefined) {
       // if (e != null) {
       // govmap.zoomToXY({ x: e.pointX, y: e.pointY });
@@ -194,7 +194,7 @@ export class ComputeService {
       let closestArch: Site[];
       if (e.siteDef == 'ארכיאולוגי') {
         console.log(e.wgS84_Info.geography);
-        this.siteservice.GetClosetsSites(e.wgS84_Info.geography).subscribe(x => {
+        /*this.siteservice.GetClosetsSites(e.wgS84_Info.geography).subscribe(x => {
           closestArch = x;
           console.log('closest:' + closestArch);
           this.siteservice.GetSiteId(e.resourceID).subscribe(x => {
@@ -206,7 +206,40 @@ export class ComputeService {
               , panelClass: 'custom-dialog-container'
             });
           });
+        });*/
+          
+
+
+        await this.siteservice.GetClosetsSites(e.wgS84_Info.geography).then(async closestArch => {
+          //console.log('closest:' + closestArch);
+          this.siteservice.GetSiteId(e.resourceID).subscribe(x => {
+            let r = x;
+            // if (!this.dialog.openDialogs) return;
+            this.dialog.closeAll();
+            return this.dialog.open(InformationComponent, {
+              data: { arch: r, closestArch: closestArch, lang: this.browserLang }
+              , panelClass: 'custom-dialog-container'
+            });
+          });
         });
+
+
+
+        /*await this.siteservice.GetClosetsSites(e.wgS84_Info.geography).then(async closestArch => {
+          console.log('closest:' + closestArch);
+          this.siteservice.GetSiteId(e.resourceID).subscribe(x => {
+            let r = x;
+            // if (!this.dialog.openDialogs) return;
+            this.dialog.closeAll();
+            return this.dialog.open(InformationComponent, {
+              data: { arch: r, closestArch: closestArch, lang: this.browserLang }
+              , panelClass: 'custom-dialog-container'
+            });
+          });
+        });*/
+
+        
+
       }
       else if (e.siteDef == 'היסטורי') {
         this.siteservice.GetJUnits(e.resourceID).subscribe(x => {
@@ -610,10 +643,22 @@ export class ComputeService {
       console.log('wayPoint' + index)
       govmap.clearGeometriesByName(['wayPoint' + index]);
     }
-    govmap.clearGeometriesByName(['Polyline1', 'Polyline2', 'person1', 'circle', 'circleSmall', 'polylineAzimuth', 'polylineAzimuthUp', 'circleAzimuth'])
-    //govmap.clearGeometriesByName(['Polyline1', 'Polyline2', 'circleSmall', 'polylineAzimuth', 'polylineAzimuthUp', 'circleAzimuth'])
+    //govmap.clearGeometriesByName(['Polyline1', 'Polyline2', 'person1', 'circle', 'circleSmall', 'polylineAzimuth', 'polylineAzimuthUp', 'circleAzimuth'])
+    govmap.clearGeometriesByName(['Polyline1', 'Polyline2', 'circleSmall', 'polylineAzimuth', 'polylineAzimuthUp', 'circleAzimuth'])
     govmap.clearGeometriesByName(['num 1', 'num 2'])
-    if (this.strIntoObj != null) govmap.clearGeometriesByName(this.strIntoObj.wkts);
+    //if (this.strIntoObj != null) govmap.clearGeometriesByName(this.strIntoObj.wkts);
+    //if (this.strIntoObj != null) govmap.clearGeometriesByName(this.strIntoObj.wkts);
+  }
+
+
+  drawCirclePerson(){
+    this.displayGeojsonViewshed(this.xToViewshed, this.yToViewshed);
+  }
+
+
+  clearViewshedCalc(){
+    govmap.clearGeometriesByName(['Polyline1', 'Polyline2', 'person1', 'circle', 'circleSmall', 'polylineAzimuth', 'polylineAzimuthUp', 'circleAzimuth'])
+    if (this.strIntoObj != null){govmap.clearGeometriesByName(this.strIntoObj.wkts);} 
   }
 
 }
