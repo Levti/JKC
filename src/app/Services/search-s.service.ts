@@ -1,3 +1,4 @@
+import { Sites } from './../maps/arch-site-model';
 import { Injectable } from '@angular/core';
 import { Observable, throwError, Subject, BehaviorSubject, of, ObservableInput } from 'rxjs';
 import { HttpClient, HttpHeaders , HttpErrorResponse} from '@angular/common/http';
@@ -9,8 +10,10 @@ import { SiteType } from '../search/search-by-kind/siteType.model';
 import { environment } from 'src/environments/environment';
 import { param } from 'jquery';
 import { catchError } from 'rxjs/operators';
+import {useChromeStorageLocal} from 'use-chrome-storage';
 
-
+import Dexie, { Table } from 'dexie';
+import { JsonPipe } from '@angular/common';
 
 export class ShowState {
   show: boolean;
@@ -53,6 +56,8 @@ export class SearchSService {
   resultList = this.result_search.asObservable();
   httpCalls = [];
   isLoadingData: boolean;
+  allData: AllSites;
+
   constructor(private http: HttpClient) {
     this.isSearch$ = this.isSearch.asObservable();
   }
@@ -61,8 +66,7 @@ export class SearchSService {
     this.isSearch.next(value || !this.isSearch.getValue());
   }
 
-  //Get sites list from api:
-  getList(sitesB: boolean) {
+  getListSearch(sitesB: boolean){
     this.isLoadingData = true;
     console.log(this.list_search_result);
     //Check if user want empty list - empty map or not:
@@ -77,6 +81,113 @@ export class SearchSService {
           this.isLoadingData = false;
         });
     }
+    else {
+      this.Sites = null;
+      this.GetSitesList();
+    }
+  }
+
+  //Get sites list from api:
+  getList(sitesB: boolean) {
+    this.isLoadingData = true;
+    console.log(this.list_search_result);
+    //Check if user want empty list - empty map or not:
+
+    if (sitesB) {
+      //console.log("dex code");
+      Dexie.exists('sitesData').then((exists) => {
+        var db = new Dexie("sitesData");
+        if (exists) {
+          console.log('Database exists!');
+          db.version(1).stores({Sites: '++id'});
+          db.table("Sites").get(1).then((siteData) => {
+            //console.log(JSON.stringify(siteData));
+            this.Sites = siteData.sitesArchiology;
+            this.GetSitesList();
+            console.log(this.Sites);
+            //debugger;
+            this.isLoadingData = false;
+          });
+          //this.GetSitesList();
+        } else {
+          //debugger;
+          this.http.post(this.baseUrl + 'Sites/GetS?searches=', this.list_search_result)
+          .subscribe(x => {
+            this.Sites = <any>x;
+            this.GetSitesList();
+            db.version(1).stores({Sites: '++id'});
+            db.table("Sites").put({sitesArchiology: this.Sites});
+            //console.log("154: " + JSON.stringify(this.Sites));
+            this.isLoadingData = false;
+          });
+          //this.GetSitesList();
+          //this.isLoadingData = false;
+        }
+      });
+    }
+      /*if (sitesB) {
+        this.http.post(this.baseUrl + 'Sites/GetS?searches=', this.list_search_result)
+        //this.http.get(this.baseUrl + 'Sites/GetAllSites', )
+      .subscribe(x => {
+  
+            this.Sites = <any>x;
+            //debugger;
+            //console.log("44444: " + JSON.stringify(this.Sites));
+            //console.log("213 " + JSON.stringify(this.Sites));
+  
+            /*var SitesDB = JSON.stringify(this.Sites.sitesArchiology.splice(0,Math.ceil(this.Sites.sitesArchiology.length / 10)));
+            console.log("222213 " + SitesDB);
+            
+            var db = new Dexie ("siteList",);
+            //db.createObjectStore("instruments", { keyPath: key});
+        
+            //db.createObjectStore("instruments", { keyPath: "My_Watchlist"});
+  
+            db.version(1).stores({
+              list2: "++id,name",
+              thelist: SitesDB
+              });
+            
+              
+              
+            db.open().then(result => {
+            // Success
+            }).catch(e => {
+            console.log("error: " + e);
+            });*/
+  
+  
+            
+          /*var db = new Dexie ("siteList");
+          db.version(1).stores({
+              12: "++id,name",
+              1234: "ssn",
+              12344: "++id,city",
+              List: JSON.stringify(this.Sites)
+          });
+          db.open();*/
+  
+  
+            /*chrome.storage.local.set({ key: 220 }).then(() => {
+              console.log("Value is set to " + 220);
+            });*/
+  
+            //const test_storage = useChromeStorageLocal('counterLocal', 0);
+            //this.GetSitesList();
+            
+            //console.log("loaded");
+            //localStorage.setItem('Sites', JSON.stringify(this.Sites));
+  
+  
+            /*var db = new Dexie("sitesData");
+            db.version(1).stores({Sites: '++id'});
+            db.table("Sites").put({sitesArchiology: this.Sites});*/
+  
+  
+            //this.isLoadingData = false;
+  
+  
+      //}
     else {
       this.Sites = null;
       this.GetSitesList();
@@ -156,3 +267,5 @@ export class SearchSService {
     return this.http.get<any>(this.email + email + '&subject=' + name + '&body=' + comment);
   }
 }
+
+

@@ -44,7 +44,8 @@ export class SearchByLocationComponent implements OnInit, AfterViewInit, OnDestr
   isLoadingData: boolean;
 
   message:string;
-  isSearch: boolean;Y
+  isSearch: boolean;
+  //Y
   isSearchSubscription: Subscription;
 
   constructor(private searchservice: SearchSService) {
@@ -55,11 +56,10 @@ export class SearchByLocationComponent implements OnInit, AfterViewInit, OnDestr
 
 
   ngOnInit() {
-    
+
     this.isSearchSubscription = this.searchservice.isSearch$.subscribe(isSearch => {
       this.isSearch = isSearch;
     });
-
 
     this.selectedValue = '';
     this.searchText.pipe(debounceTime(200), distinctUntilChanged(), switchMap(x => this.searchservice.searchByLocation(<any>x)))
@@ -82,9 +82,6 @@ export class SearchByLocationComponent implements OnInit, AfterViewInit, OnDestr
     this.searchText.next(searchL);
   }
   search() {
-    //govmap.zoomToXY({ x: , y: 216994.9, level: 5, marker: false }); // zoom to site 
-    //this.isSearch = true;
-  
     this.isLoadingData = this.searchservice.isLoadingData = true;
     let selectValue = { id: 0.1, nameHe: this.selectedValue, nameEn: this.selectedValue, timeline: null, period: null, perdiocal: null, siternature: null, location: this.selectedValue };
     let selectedValueExists: boolean;
@@ -104,7 +101,7 @@ export class SearchByLocationComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     this.sitesB = true;
-    this.searchservice.getList(this.sitesB);
+    this.searchservice.getListSearch(this.sitesB);
     this.searchservice.hide();
   }
 

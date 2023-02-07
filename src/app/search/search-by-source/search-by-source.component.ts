@@ -100,7 +100,7 @@ export class SearchBySourceComponent implements OnInit {
       }
     }
     this.sitesB = true;
-    this.searchService.getList(this.sitesB);
+    this.searchService.getListSearch(this.sitesB);
     this.searchService.hide();
   }
 

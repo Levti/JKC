@@ -1,3 +1,4 @@
+import { Dexie } from 'dexie';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SearchSService } from 'src/app/Services/search-s.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -86,6 +87,31 @@ export class SearchByKindComponent implements OnInit {
   }
 
   search() {
+    //var db = new Dexie("sitesData");
+    /*const db = new Dexie('sitesData');
+
+    db.open().then(() => {
+      // Perform operations with the database
+    
+      // Wait for all transactions to complete
+      db.transaction('rw', db.table("Sites"), function () {
+        // Perform transactions with the database
+    
+        // End the transaction
+        return Promise.resolve();
+      }).then(() => {
+        // Close the connection
+        db.close();
+    
+        // Delete the database
+        Dexie.delete('sitesData').then(() => {
+          console.log('Database deleted successfully');
+        }).catch(error => {
+          console.error('Error deleting database: ', error);
+        });
+      });
+    });
+    console.log("deleted");*/
     let n = 0;
     for (let index = 0; index < this.siteTypeList.length; index++) {
       if (this.siteTypeList[index].checked) {
@@ -129,7 +155,7 @@ export class SearchByKindComponent implements OnInit {
     }
 
     this.sitesB = true;
-    this.searchService.getList(this.sitesB);
+    this.searchService.getListSearch(this.sitesB);
     this.searchService.hide();
     // this.searchService.getListSite(this.searchService.list_search_result).subscribe(x=>{console.log(x)});
     // alert("החיפוש יהיה זמין בקרוב")

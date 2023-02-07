@@ -111,7 +111,7 @@ export class SearchByPeriodComponent implements OnInit {
       }
     }
     this.sitesB = true;
-    this.searchservice.getList(this.sitesB);
+    this.searchservice.getListSearch(this.sitesB);
     this.searchservice.hide();
   }
 
@@ -161,7 +161,7 @@ export class SearchByPeriodComponent implements OnInit {
     }
     this.searchs();
     this.sitesB = true;
-    this.searchservice.getList(this.sitesB);
+    this.searchservice.getListSearch(this.sitesB);
     this.searchservice.hide();
   }
 
