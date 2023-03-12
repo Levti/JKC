@@ -1,7 +1,7 @@
 declare const govmap: any;
 declare const proj4: any;
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, NgZone, OnInit, ViewChild, OnDestroy, OnChanges } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild, OnDestroy, OnChanges, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SitesService } from 'src/app/Services/sites.service';
 import { ComputeService } from '../compute.service';
@@ -11,6 +11,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ThrowStmt } from '@angular/compiler';
 import { TutorialsComponent } from 'src/app/tutorials/tutorials.component';
 import { MatDialog } from '@angular/material';
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-distance-time',
@@ -33,6 +37,7 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
   chartLabels: any[] = [];
   length_metres: number;
   wkt: any;
+  isOpen = false;
   
 
   @ViewChild(ScrollToBottomDirective, { static: false }) scroll: ScrollToBottomDirective;
@@ -115,6 +120,7 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isOpen = true;
     this.computes.heightCalcDis = 400;
     this.newWay = false;
     this.isLoadingWalkindPath = false;
@@ -155,21 +161,25 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
         'bubbles': [''],
       }
     };
+
     console.log("addPointInWay")
     var res_list = [];
-    govmap.displayGeometries(data).progress((res) => {
-      console.log("DrawPointInWay")
-      console.log(res);
-      res_list.push(res);
-      setTimeout(() => {
-        if (res_list[0]) {
-          this.ngZone.run(() => {
-            this.computes.openInformation(res.data.geomData, res.data.x, res.data.y);
-          })
-          res_list = [];
-        }
-      }, 10);
-    })
+    //if(this.isOpen){
+      govmap.displayGeometries(data).progress((res) => {
+        console.log("DrawPointInWay")
+        //debugger;
+        console.log(res);
+        res_list.push(res);
+        setTimeout(() => {
+          if (res_list[0]) {
+            this.ngZone.run(() => {
+              this.computes.openInformation(res.data.geomData, res.data.x, res.data.y);
+            })
+            res_list = [];
+          }
+        }, 10);
+      })
+  //}
   }
   //Add point to polyline:
   addPoint() {
@@ -187,6 +197,8 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
       return;
     else {
       next.focus();   // focus if not null
+      //console.log("call to dis");
+      //debugger;
       this.computes.xyDis(this.computes.event, this.computes.indexNext); //call to xyDis()
     }
   }
@@ -292,18 +304,21 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
         console.log("calc")
         this.computes.heightCalcDis = 570;
         var res_list = [];
-        govmap.displayGeometries(data).progress((res) => {
-          res_list.push(res);
-          console.log(res_list);
-          setTimeout(() => {
-            if (res_list[0]) {
-              this.ngZone.run(() => {
-                this.computes.openInformation(res.data.geomData, res.data.x, res.data.y);
-              })
-              res_list = [];
-            }
-          }, 10);
-        })
+
+          govmap.displayGeometries(data).progress((res) => {
+            res_list.push(res);
+            console.log(res_list);
+            setTimeout(() => {
+              if (res_list[0]) {
+                this.ngZone.run(() => {
+                  this.computes.openInformation(res.data.geomData, res.data.x, res.data.y);
+                })
+                res_list = [];
+              }
+            }, 10);
+          })
+
+
         this.siteservice.getWalkingPath(this.wktAPI).subscribe(y => {
           let re = /\'/gi;
           y = y.replace(re, '"')
@@ -387,6 +402,7 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
         this.length_metres = x.data.length_metres / 150;
         this.length_metres = parseFloat(this.length_metres.toFixed(0));
         let num = 0;
+
         for (let index = 0; index < x.data.z_profile.length; index += this.length_metres) {
           const yx = { x: num, y: x.data.z_profile[index] }
           ypro.push(x)
@@ -423,18 +439,22 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
         };
         this.computes.heightCalcDis = 570;
         var res_list = [];
-        govmap.displayGeometries(data).progress((res) => {
-          console.log(res);
-          res_list.push(res);
-          setTimeout(() => {
-            if (res_list[0]) {
-              this.ngZone.run(() => {
-                this.computes.openInformation(res.data.geomData, res.data.x, res.data.y);
-              })
-              res_list = [];
-            }
-          }, 10);
-        })
+
+        if(this.isOpen){
+          govmap.displayGeometries(data).progress((res) => {
+            console.log(res);
+            res_list.push(res);
+            setTimeout(() => {
+              if (res_list[0]) {
+                this.ngZone.run(() => {
+                  this.computes.openInformation(res.data.geomData, res.data.x, res.data.y);
+                })
+                res_list = [];
+              }
+            }, 10);
+          })
+        }
+
         this.isLoadingWalkindPath = false;
       })
     }
@@ -445,7 +465,28 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.recalculateWalkingPath();
+    this.isOpen = false;
+    this.recalculateWalkingPath();
+
+
+  //mat-button-ripple mat-ripple mat-button-ripple-round
+
+  // var calcDone = false;
+
+  // if(!calcDone){
+  //   setTimeout(function() {
+  //     $('.bbtn.btnDisTime.disAndTimeHeb.ng-star-inserted').trigger("click");
+  //     setTimeout(function() {
+  //       calcDone = true;
+  //       $('.bbtn.btnDisTime.disAndTimeHeb.ng-star-inserted').trigger("click");
+  //     }, 1000);
+  //   }, 1000);
+  // }
+
   }
 
 }
+
+
+
+
