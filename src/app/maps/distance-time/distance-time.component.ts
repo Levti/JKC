@@ -403,6 +403,12 @@ export class DistanceTimeComponent implements OnInit, OnDestroy {
         this.length_metres = parseFloat(this.length_metres.toFixed(0));
         let num = 0;
 
+        $(document).ready(function() {
+          $('.viewshed.viewshedListClose.ng-star-inserted').delay(50).queue(function() {
+            $(this).css('height', '610px');
+          });
+        });
+
         for (let index = 0; index < x.data.z_profile.length; index += this.length_metres) {
           const yx = { x: num, y: x.data.z_profile[index] }
           ypro.push(x)
