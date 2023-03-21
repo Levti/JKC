@@ -366,12 +366,16 @@ mat-form-field {
 }
 
 .expandSEN {
+    position: unset !important;
+    margin-top: 0px !important;
     margin-top: 270px;
     left: 225px;
 }
 
 .expandBEN {
-    margin-top: 350px; /* 310px */
+    position: unset !important;
+    margin-top: 0px !important;
+    /*margin-top: 380px;  310px */
     left: -140px;
 }
 
@@ -482,6 +486,19 @@ button:disabled {
  ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+
+.loader-delay {
+  display: none;
+  background-color: #323232d9;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 9999;
+  margin-top: 0px;
+  top: 0px;
+}
+
 
 .loader {
     background-color: rgb(50, 50, 50);
