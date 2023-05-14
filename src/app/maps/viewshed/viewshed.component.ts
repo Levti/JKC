@@ -19,50 +19,10 @@ import { MatDialog } from '@angular/material';
   providedIn: 'root'
 })
 
-
-/*export class SharedDataService {
-  private isCalculatedSource = new BehaviorSubject(false);
-  isCalculated = this.isCalculatedSource.asObservable();
-
-  updateIsCalculated(value: boolean) {
-    this.isCalculatedSource.next(value);
-  }
-}*/
-
-
 export class ViewshedComponent implements OnInit {
   isLoadingViewShed:boolean;
   reCalc: boolean;
   he: boolean; // err fix
-
-
-/*
-  //isCalculated: boolean;
-
-  //private _isCalculated = new Subject<boolean>();
-  //isCalculated$ = this._isCalculated.asObservable();
-
-  //private isCalculated = new BehaviorSubject<boolean>(false);
-  //$isCalculated = this.isCalculated.asObservable();
-
-
-  private isCalculatedSource = new BehaviorSubject(false);
-  isCalculated = this.isCalculatedSource.asObservable();
-
-  private _status: boolean = false;
-
-  /*get isCalculated(): boolean {
-    return this._status;
-  }
-
-  set isCalculated(value: boolean) {
-    this._status = value;
-    this._isCalculated.next(value);
-  }
-  
-*/
-
-
 
   @Input()  browserLang: string;
 
@@ -192,7 +152,17 @@ export class ViewshedComponent implements OnInit {
 
   clearCalc(){
     this.computes.clearViewshedCalc();
+    this.recalculationViewshed();
     this.computes.xToViewshed = this.computes.yToViewshed = undefined;
+  }
+
+  tutorialLang(){
+    if(this.browserLang == 'he'){
+      console.log('open in Hebrew');
+    }
+    else{
+      console.log('open in English');
+    }
   }
 
   ngOnDestroy() {

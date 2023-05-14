@@ -8,7 +8,7 @@
 <a style="display: block; cursor:pointer;" (click)="openTutorial()" class="help-div"><div class="help-link">{{'Tooltips.help'|translate}}</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>
 <!--<a style="display: block; cursor:pointer;" (click)="openDialog('viewshedHelp')" class="help-div"><div class="help-link">Clear Calc</div><span class="material-icons" style="position: initial; font-size: 18px;">help</span></a>-->
 
-      <button *ngIf="computes.locationToViewshed" for="" mat-button (click)="clearCalc()" style="flex-direction: row;
+      <button id="clear" *ngIf="computes.locationToViewshed" for="" mat-button (click)="clearCalc()" style="flex-direction: row;
       align-items: flex-start;
       position: relative;
       font-family: Rubik;
